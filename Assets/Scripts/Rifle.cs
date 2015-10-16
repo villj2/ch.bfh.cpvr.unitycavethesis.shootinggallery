@@ -8,16 +8,22 @@ public class Rifle : MonoBehaviour {
     public Bullet Bullet;
     public GameObject BulletTarget;
 
+	public int RotationMaxX = 30;
+	public int RotationMaxY = 30;
+
     RaycastHit hit;
 
     private AudioSource _audioSource;
     private Animation _animation;
     private bool _recentlyShot = false;
+	private Quaternion _rotInit;
 
 	// Use this for initialization
 	void Start () {
         _audioSource = GetComponent<AudioSource>();
         _animation = GetComponent<Animation>();
+
+		_rotInit = transform.parent.rotation;
 
         _animation.Stop();
     }
@@ -29,6 +35,15 @@ public class Rifle : MonoBehaviour {
         {
             StartCoroutine(Shoot());
         }
+
+		// Set Rifle Rotation
+		float CursorPosPercentX = (100f / Screen.width * Input.mousePosition.x - 50f) * 2;
+		float CursorPosPercentY = (100f / Screen.height * Input.mousePosition.y - 50f) * -2;
+
+		transform.parent.rotation = _rotInit;
+
+		transform.parent.Rotate (Vector3.up, RotationMaxX * CursorPosPercentX / 100f);
+		transform.parent.Rotate (Vector3.right, RotationMaxY * CursorPosPercentY / 100f);
 	}
 
     IEnumerator Shoot()
@@ -38,31 +53,31 @@ public class Rifle : MonoBehaviour {
             _recentlyShot = true;
 
             _audioSource.Play();
-            _animation.Play("RifleShoot");
+            //_animation.Play("RifleShoot");
 
             // Shoot Bullet
-            Bullet bulletClone = (Bullet)Instantiate(Bullet, BulletTarget.transform.position, BulletTarget.transform.rotation);
+            /*Bullet bulletClone = (Bullet)Instantiate(Bullet, BulletTarget.transform.position, BulletTarget.transform.rotation);
             bulletClone.Init();
-            bulletClone.Shoot();
+            bulletClone.Shoot();*/
 
             // Raycast
-            var raycast = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            //var raycast = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+			Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(raycast, out hit, 100))
-            {
-                Debug.Log("hit");
-
-                // TODO check if hit target is duck
-                // TODO add particle effect in wood or ground is hit
-
-                hit.rigidbody.AddForce(Camera.main.transform.forward * 1000);
-            }
+			if(Physics.Raycast(raycast, out hit, 100))
+			{
+				if(hit.rigidbody != null && hit.rigidbody.gameObject.tag == "ShootingTarget")
+				{
+					// FIXME Falls nicht genau im Zentrum des Screens geschossen wird, stimmt die AddForce() Richtung nicht ganz. --> Richtung vom Gewehr nehmen.
+					hit.rigidbody.AddForce(Camera.main.transform.forward * 1000);
+				}
+			}
 
             Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward);
 
             yield return new WaitForSeconds(ShootDelay);
 
-            _animation.Rewind("RifleShoot");
+            //_animation.Rewind("RifleShoot");
 
             _recentlyShot = false;
         }
