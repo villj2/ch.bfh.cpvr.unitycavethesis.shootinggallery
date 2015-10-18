@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Rifle : MonoBehaviour {
 
-    public float ShootDelay = 2.0f; // Seconds to wait after a shot is fired
+    public float ShootDelay = 2f; // Seconds to wait after a shot is fired
     public GameObject RaycastSource;
     public Bullet Bullet;
     public GameObject BulletTarget;
@@ -17,13 +17,25 @@ public class Rifle : MonoBehaviour {
     private Animation _animation;
     private bool _recentlyShot = false;
 	private Quaternion _rotInit;
+    private GameObject _rifleCenter;
 
-	// Use this for initialization
-	void Start () {
+    private Camera _camLeft;
+    private Camera _camFront;
+    private Camera _camRight;
+    private Camera _camBottom;
+
+    // Use this for initialization
+    void Start () {
         _audioSource = GetComponent<AudioSource>();
         _animation = GetComponent<Animation>();
 
-		_rotInit = transform.parent.rotation;
+		//_rotInit = transform.parent.rotation;
+
+        _rifleCenter = GameObject.Find("RifleCenter");
+        _camLeft = GameObject.Find("CameraLeft").GetComponent<Camera>();
+        _camFront = GameObject.Find("CameraFront").GetComponent<Camera>();
+        _camRight = GameObject.Find("CameraRight").GetComponent<Camera>();
+        _camBottom = GameObject.Find("CameraBottom").GetComponent<Camera>();
 
         _animation.Stop();
     }
@@ -36,15 +48,47 @@ public class Rifle : MonoBehaviour {
             StartCoroutine(Shoot());
         }
 
-		// Set Rifle Rotation
-		float CursorPosPercentX = (100f / Screen.width * Input.mousePosition.x - 50f) * 2;
-		float CursorPosPercentY = (100f / Screen.height * Input.mousePosition.y - 50f) * -2;
+        // Set Rifle Rotation
+        //float CursorPosPercentX = (100f / Screen.width * Input.mousePosition.x - 50f) * 2;
+        //float CursorPosPercentY = (100f / Screen.height * Input.mousePosition.y - 50f) * -2;
+        //transform.parent.rotation = _rotInit;
 
-		transform.parent.rotation = _rotInit;
+        //transform.parent.Rotate (Vector3.up, RotationMaxX * CursorPosPercentX / 100f);
+        //transform.parent.Rotate (Vector3.right, RotationMaxY * CursorPosPercentY / 100f);
 
-		transform.parent.Rotate (Vector3.up, RotationMaxX * CursorPosPercentX / 100f);
-		transform.parent.Rotate (Vector3.right, RotationMaxY * CursorPosPercentY / 100f);
-	}
+        ////float ScreenTileWidth = Screen.width / 2;
+        ////float ScreenTileHeight = Screen.height / 2;
+        ////float CursorPosPercentX = (100f / Screen.width * Input.mousePosition.x - 50f) * 2;
+        ////float CursorPosPercentY = (100f / ScreenTileHeight * Input.mousePosition.y - 50f) * -2;
+
+        Vector3 posRifleOnCamLeft = _camLeft.WorldToScreenPoint(_rifleCenter.transform.position);
+        Vector3 posRifleOnCamFront = _camFront.WorldToScreenPoint(_rifleCenter.transform.position);
+        Vector3 posRifleOnCamRight = _camRight.WorldToScreenPoint(_rifleCenter.transform.position);
+        Vector3 posRifleOnCamBottom = _camBottom.WorldToScreenPoint(_rifleCenter.transform.position);
+
+        // TODO choose correct camera
+        Debug.Log("camleft: " + posRifleOnCamLeft);
+        Debug.Log("camfront: " + posRifleOnCamFront);
+        Debug.Log("camright: " + posRifleOnCamRight);
+        Debug.Log("cambottom: " + posRifleOnCamBottom);
+        Debug.Log("---------");
+
+
+
+        Vector3 posRifleOnCam = posRifleOnCamRight;
+
+
+        float shiftX = 100f / 250f * (Input.mousePosition.x - posRifleOnCam.x);
+        float shiftY = 100f / 200f * (posRifleOnCam.y - Input.mousePosition.y);
+        float shiftXPercent = shiftX < 0 ? Mathf.Max(shiftX, -100) : Mathf.Min(shiftX, 100);
+        float shiftYPercent = shiftY < 0 ? Mathf.Max(shiftY, -100) : Mathf.Min(shiftY, 100);
+        float RotX = 30f / 100f * shiftXPercent;
+        float RotY = 30f / 100f * shiftYPercent;
+        
+        Quaternion rot = Quaternion.Euler(RotY, RotX + _camRight.transform.rotation.eulerAngles.y, 0);
+
+        transform.parent.rotation = rot;
+    }
 
     IEnumerator Shoot()
     {
