@@ -14,6 +14,8 @@ public class Main : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+        //Debug.Log("gnignagnu: " + Cave.CalculatedValues.Instance.AngleWandEyes);
+
+        //Debug.Log("angle between: " + Quaternion.FromToRotation(Cave.CalculatedValues.Instance.));
 	}
 }

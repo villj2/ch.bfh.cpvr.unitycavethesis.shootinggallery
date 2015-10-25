@@ -3,5 +3,5 @@ Gun: Asset Store ($1)
 Market Stalls: Asset Store ($5)
 Gun Audio: soundbible.com, Gun Fire Sound
 Rubber Duck: blendswap.com (http://www.blendswap.com/blends/view/69732)
-
-
+Targets: blendswap.com (http://www.blendswap.com/blends/view/69200)
+Hit Target Audio: https://www.youtube.com/watch?v=Ra-5vA3jK0M

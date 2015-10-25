@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Cave;
 
 public class Player : MonoBehaviour {
 
@@ -17,22 +18,26 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            //_cameraContainer.transform.Rotate(Vector3.up, 1);
-            //_rifleContainer.transform.Rotate(Vector3.up, 1);
-            //this.transform.Rotate(Vector3.up, 1);
+        var eyes = CalculatedValues.Instance.Eyes;
+        
+        _rifleRotator.transform.rotation = Quaternion.AngleAxis(eyes.transform.rotation.eulerAngles.y, Vector3.up);
 
-            _rifleRotator.transform.Rotate(Vector3.up, 1);
-        }
+        //if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        //{
+        //    //_cameraContainer.transform.Rotate(Vector3.up, 1);
+        //    //_rifleContainer.transform.Rotate(Vector3.up, 1);
+        //    //this.transform.Rotate(Vector3.up, 1);
 
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            //_cameraContainer.transform.Rotate(Vector3.up, -1);
-            //_rifleContainer.transform.Rotate(Vector3.up, -1);
-            //this.transform.Rotate(Vector3.up, -1);
+        //    _rifleRotator.transform.Rotate(Vector3.up, 1);
+        //}
 
-            _rifleRotator.transform.Rotate(Vector3.up, -1);
-        }
+        //if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        //{
+        //    //_cameraContainer.transform.Rotate(Vector3.up, -1);
+        //    //_rifleContainer.transform.Rotate(Vector3.up, -1);
+        //    //this.transform.Rotate(Vector3.up, -1);
+
+        //    _rifleRotator.transform.Rotate(Vector3.up, -1);
+        //}
     }
 }

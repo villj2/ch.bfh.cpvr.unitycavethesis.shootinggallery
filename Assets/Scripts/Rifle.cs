@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Cave;
 
 public class Rifle : MonoBehaviour {
 
@@ -16,31 +17,21 @@ public class Rifle : MonoBehaviour {
     private AudioSource _audioSource;
     private Animation _animation;
     private bool _recentlyShot = false;
-	private Quaternion _rotInit;
-    private GameObject _rifleCenter;
 
-    private Camera _camLeft;
-    private Camera _camFront;
-    private Camera _camRight;
-    private Camera _camBottom;
-
-    // Use this for initialization
+    private GameObject _rifleRotator;
+    private Vector3 _rotOri;
+    public Transform _particleEffect;
+    
     void Start () {
         _audioSource = GetComponent<AudioSource>();
         _animation = GetComponent<Animation>();
 
-		//_rotInit = transform.parent.rotation;
-
-        _rifleCenter = GameObject.Find("RifleCenter");
-        _camLeft = GameObject.Find("CameraLeft").GetComponent<Camera>();
-        _camFront = GameObject.Find("CameraFront").GetComponent<Camera>();
-        _camRight = GameObject.Find("CameraRight").GetComponent<Camera>();
-        _camBottom = GameObject.Find("CameraBottom").GetComponent<Camera>();
+        _rifleRotator = GameObject.Find("RifleRotator");
+        _rotOri = _rifleRotator.transform.rotation.eulerAngles;
 
         _animation.Stop();
     }
 	
-	// Update is called once per frame
 	void Update () {
 
         if (Input.GetKey(KeyCode.Mouse0))
@@ -48,46 +39,25 @@ public class Rifle : MonoBehaviour {
             StartCoroutine(Shoot());
         }
 
-        // Set Rifle Rotation
-        //float CursorPosPercentX = (100f / Screen.width * Input.mousePosition.x - 50f) * 2;
-        //float CursorPosPercentY = (100f / Screen.height * Input.mousePosition.y - 50f) * -2;
-        //transform.parent.rotation = _rotInit;
+        // Get relative rotation between eyes / wand
+        var rotFromPlugin = Quaternion.Inverse(CalculatedValues.Instance.Eyes.transform.rotation) * CalculatedValues.Instance.Wand.transform.rotation;
+        //var rotFromPlugin = CalculatedValues.Instance.Eyes.transform.rotation * CalculatedValues.Instance.Wand.transform.rotation;
 
-        //transform.parent.Rotate (Vector3.up, RotationMaxX * CursorPosPercentX / 100f);
-        //transform.parent.Rotate (Vector3.right, RotationMaxY * CursorPosPercentY / 100f);
+        //Debug.Log("rotFromPlugin: " + rotFromPlugin.eulerAngles);
 
-        ////float ScreenTileWidth = Screen.width / 2;
-        ////float ScreenTileHeight = Screen.height / 2;
-        ////float CursorPosPercentX = (100f / Screen.width * Input.mousePosition.x - 50f) * 2;
-        ////float CursorPosPercentY = (100f / ScreenTileHeight * Input.mousePosition.y - 50f) * -2;
+        var q = Quaternion.FromToRotation(CalculatedValues.Instance.Eyes.transform.forward, CalculatedValues.Instance.Wand.transform.forward);
+        rotFromPlugin = q * rotFromPlugin;
 
-        Vector3 posRifleOnCamLeft = _camLeft.WorldToScreenPoint(_rifleCenter.transform.position);
-        Vector3 posRifleOnCamFront = _camFront.WorldToScreenPoint(_rifleCenter.transform.position);
-        Vector3 posRifleOnCamRight = _camRight.WorldToScreenPoint(_rifleCenter.transform.position);
-        Vector3 posRifleOnCamBottom = _camBottom.WorldToScreenPoint(_rifleCenter.transform.position);
-
-        // TODO choose correct camera
-        Debug.Log("camleft: " + posRifleOnCamLeft);
-        Debug.Log("camfront: " + posRifleOnCamFront);
-        Debug.Log("camright: " + posRifleOnCamRight);
-        Debug.Log("cambottom: " + posRifleOnCamBottom);
-        Debug.Log("---------");
-
-
-
-        Vector3 posRifleOnCam = posRifleOnCamRight;
-
-
-        float shiftX = 100f / 250f * (Input.mousePosition.x - posRifleOnCam.x);
-        float shiftY = 100f / 200f * (posRifleOnCam.y - Input.mousePosition.y);
-        float shiftXPercent = shiftX < 0 ? Mathf.Max(shiftX, -100) : Mathf.Min(shiftX, 100);
-        float shiftYPercent = shiftY < 0 ? Mathf.Max(shiftY, -100) : Mathf.Min(shiftY, 100);
-        float RotX = 30f / 100f * shiftXPercent;
-        float RotY = 30f / 100f * shiftYPercent;
+        // Add rotation from RifleRotator to y-axis of relative rotation between eyes / wand
+        rotFromPlugin *= Quaternion.AngleAxis(_rifleRotator.transform.rotation.eulerAngles.y, Vector3.up);
+        //rotFromPlugin *= _rifleRotator.transform.rotation;
         
-        Quaternion rot = Quaternion.Euler(RotY, RotX + _camRight.transform.rotation.eulerAngles.y, 0);
+        // FIXME wird die wand links oder rechts angeschaut, rotiert das gewehr bei einer wand/eyes-änderung auf einer falschen achse
 
-        transform.parent.rotation = rot;
+        // TODO ignore rotation on z
+        rotFromPlugin *= Quaternion.AngleAxis(0, Vector3.right);
+
+        transform.parent.rotation = rotFromPlugin;
     }
 
     IEnumerator Shoot()
@@ -106,16 +76,29 @@ public class Rifle : MonoBehaviour {
 
             // Raycast
             //var raycast = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-			Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-			if(Physics.Raycast(raycast, out hit, 100))
+            Debug.Log("Shoot with cam: " + CalculatedValues.Instance.CameraManager.CameraWithCursor.name);
+            Ray raycast = CalculatedValues.Instance.CameraManager.CameraWithCursor.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(raycast, out hit, 100))
 			{
 				if(hit.rigidbody != null && hit.rigidbody.gameObject.tag == "ShootingTarget")
 				{
-					// FIXME Falls nicht genau im Zentrum des Screens geschossen wird, stimmt die AddForce() Richtung nicht ganz. --> Richtung vom Gewehr nehmen.
-					hit.rigidbody.AddForce(Camera.main.transform.forward * 1000);
+                    // FIXME Falls nicht genau im Zentrum des Screens geschossen wird, stimmt die AddForce() Richtung nicht ganz. --> Richtung vom Gewehr nehmen.
+                    hit.rigidbody.AddForce(Camera.main.transform.forward * 1000);
 				}
-			}
+                
+                IShootingTarget target = hit.collider.transform.root.GetComponent<IShootingTarget>();
+                if(target != null)
+                {
+                    target.Hit();
+                }
+                
+                // Instantiate Particle Smoke
+                var particleClone = Instantiate(_particleEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy((particleClone as Transform).gameObject, 3);
+            }
 
             Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward);
 
