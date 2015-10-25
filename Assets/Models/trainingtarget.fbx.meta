@@ -1,0 +1,474 @@
+fileFormatVersion: 2
+guid: f81838fe371e0904795d845a52dcee69
+timeCreated: 1445795467
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Armature
+    100002: Camera
+    100004: Camera.001
+    100006: Camera.002
+    100008: Camera.003
+    100010: Lamp
+    100012: Lamp.001
+    100014: Lamp.002
+    100016: Ltarget
+    100018: Ltarget_end
+    100020: Mtarget
+    100022: Mtarget_end
+    100024: Root bone
+    100026: Rtarget
+    100028: Rtarget_end
+    100030: Target
+    100032: //RootNode
+    400000: Armature
+    400002: Camera
+    400004: Camera.001
+    400006: Camera.002
+    400008: Camera.003
+    400010: Lamp
+    400012: Lamp.001
+    400014: Lamp.002
+    400016: Ltarget
+    400018: Ltarget_end
+    400020: Mtarget
+    400022: Mtarget_end
+    400024: Root bone
+    400026: Rtarget
+    400028: Rtarget_end
+    400030: Target
+    400032: //RootNode
+    4300000: Target
+    7400000: HitFirst
+    7400002: HitSecond
+    7400004: HitThird
+    7400006: ShowFirst
+    7400008: ShowSecond
+    7400010: ShowThird
+    9500000: //RootNode
+    13700000: Target
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: HitFirst
+      takeName: Armature|Action
+      firstFrame: 29
+      lastFrame: 44
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root bone
+        weight: 1
+      - path: Armature/Root bone/Ltarget
+        weight: 1
+      - path: Armature/Root bone/Ltarget/Ltarget_end
+        weight: 1
+      - path: Armature/Root bone/Mtarget
+        weight: 1
+      - path: Armature/Root bone/Mtarget/Mtarget_end
+        weight: 1
+      - path: Armature/Root bone/Rtarget
+        weight: 1
+      - path: Armature/Root bone/Rtarget/Rtarget_end
+        weight: 1
+      - path: Camera
+        weight: 1
+      - path: Camera.001
+        weight: 1
+      - path: Camera.002
+        weight: 1
+      - path: Camera.003
+        weight: 1
+      - path: Lamp
+        weight: 1
+      - path: Lamp.001
+        weight: 1
+      - path: Lamp.002
+        weight: 1
+      - path: Target
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: HitSecond
+      takeName: Armature|Action
+      firstFrame: 73
+      lastFrame: 88
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root bone
+        weight: 1
+      - path: Armature/Root bone/Ltarget
+        weight: 1
+      - path: Armature/Root bone/Ltarget/Ltarget_end
+        weight: 1
+      - path: Armature/Root bone/Mtarget
+        weight: 1
+      - path: Armature/Root bone/Mtarget/Mtarget_end
+        weight: 1
+      - path: Armature/Root bone/Rtarget
+        weight: 1
+      - path: Armature/Root bone/Rtarget/Rtarget_end
+        weight: 1
+      - path: Camera
+        weight: 1
+      - path: Camera.001
+        weight: 1
+      - path: Camera.002
+        weight: 1
+      - path: Camera.003
+        weight: 1
+      - path: Lamp
+        weight: 1
+      - path: Lamp.001
+        weight: 1
+      - path: Lamp.002
+        weight: 1
+      - path: Target
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: HitThird
+      takeName: Armature|Action
+      firstFrame: 122
+      lastFrame: 134
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root bone
+        weight: 1
+      - path: Armature/Root bone/Ltarget
+        weight: 1
+      - path: Armature/Root bone/Ltarget/Ltarget_end
+        weight: 1
+      - path: Armature/Root bone/Mtarget
+        weight: 1
+      - path: Armature/Root bone/Mtarget/Mtarget_end
+        weight: 1
+      - path: Armature/Root bone/Rtarget
+        weight: 1
+      - path: Armature/Root bone/Rtarget/Rtarget_end
+        weight: 1
+      - path: Camera
+        weight: 1
+      - path: Camera.001
+        weight: 1
+      - path: Camera.002
+        weight: 1
+      - path: Camera.003
+        weight: 1
+      - path: Lamp
+        weight: 1
+      - path: Lamp.001
+        weight: 1
+      - path: Lamp.002
+        weight: 1
+      - path: Target
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: ShowFirst
+      takeName: Armature|Action
+      firstFrame: 0
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root bone
+        weight: 1
+      - path: Armature/Root bone/Ltarget
+        weight: 1
+      - path: Armature/Root bone/Ltarget/Ltarget_end
+        weight: 1
+      - path: Armature/Root bone/Mtarget
+        weight: 1
+      - path: Armature/Root bone/Mtarget/Mtarget_end
+        weight: 1
+      - path: Armature/Root bone/Rtarget
+        weight: 1
+      - path: Armature/Root bone/Rtarget/Rtarget_end
+        weight: 1
+      - path: Camera
+        weight: 1
+      - path: Camera.001
+        weight: 1
+      - path: Camera.002
+        weight: 1
+      - path: Camera.003
+        weight: 1
+      - path: Lamp
+        weight: 1
+      - path: Lamp.001
+        weight: 1
+      - path: Lamp.002
+        weight: 1
+      - path: Target
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: ShowSecond
+      takeName: Armature|Action
+      firstFrame: 45
+      lastFrame: 72
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root bone
+        weight: 1
+      - path: Armature/Root bone/Ltarget
+        weight: 1
+      - path: Armature/Root bone/Ltarget/Ltarget_end
+        weight: 1
+      - path: Armature/Root bone/Mtarget
+        weight: 1
+      - path: Armature/Root bone/Mtarget/Mtarget_end
+        weight: 1
+      - path: Armature/Root bone/Rtarget
+        weight: 1
+      - path: Armature/Root bone/Rtarget/Rtarget_end
+        weight: 1
+      - path: Camera
+        weight: 1
+      - path: Camera.001
+        weight: 1
+      - path: Camera.002
+        weight: 1
+      - path: Camera.003
+        weight: 1
+      - path: Lamp
+        weight: 1
+      - path: Lamp.001
+        weight: 1
+      - path: Lamp.002
+        weight: 1
+      - path: Target
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: ShowThird
+      takeName: Armature|Action
+      firstFrame: 89
+      lastFrame: 121
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Root bone
+        weight: 1
+      - path: Armature/Root bone/Ltarget
+        weight: 1
+      - path: Armature/Root bone/Ltarget/Ltarget_end
+        weight: 1
+      - path: Armature/Root bone/Mtarget
+        weight: 1
+      - path: Armature/Root bone/Mtarget/Mtarget_end
+        weight: 1
+      - path: Armature/Root bone/Rtarget
+        weight: 1
+      - path: Armature/Root bone/Rtarget/Rtarget_end
+        weight: 1
+      - path: Camera
+        weight: 1
+      - path: Camera.001
+        weight: 1
+      - path: Camera.002
+        weight: 1
+      - path: Camera.003
+        weight: 1
+      - path: Lamp
+        weight: 1
+      - path: Lamp.001
+        weight: 1
+      - path: Lamp.002
+        weight: 1
+      - path: Target
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
