@@ -4,7 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ShootingTarget
+  - CaveFront
+  - CaveBottom
+  - CaveRight
+  - CaveLeft
+  - Duck
+  - TrainingTarget
   layers:
   - Default
   - TransparentFX

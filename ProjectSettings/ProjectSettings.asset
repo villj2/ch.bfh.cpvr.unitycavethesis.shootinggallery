@@ -11,7 +11,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: ShootingGallery
+  productName: ch.bfh.cpvr.unitycavethesis.shootinggallery
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_ShowUnitySplashScreen: 1
@@ -92,7 +92,7 @@ PlayerSettings:
   metroEnableLowLatencyPresentationAPI: 0
   xboxOneDisableKinectGpuReservation: 0
   virtualRealitySupported: 0
-  productGUID: 3c0a56c47872058458fdb552976d282a
+  productGUID: ea43f15ec0d897b4b8c9345445ecf5ac
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 9
   AndroidPreferredInstallLocation: 1
@@ -160,11 +160,7 @@ PlayerSettings:
     banner: {fileID: 0}
   androidGamepadSupportLevel: 0
   resolutionDialogBanner: {fileID: 0}
-  m_BuildTargetIcons:
-  - m_BuildTarget: 
-    m_Icons:
-    - m_Icon: {fileID: 0}
-      m_Size: 128
+  m_BuildTargetIcons: []
   m_BuildTargetBatching: []
   m_BuildTargetGraphicsAPIs: []
   webPlayerTemplate: APPLICATION:Default
@@ -322,7 +318,7 @@ PlayerSettings:
     16: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     17: MOBILE_INPUT
     20: MOBILE_INPUT
-  metroPackageName: ShootingGallery
+  metroPackageName: ch.bfh.cpvr.unitycavethesis.shootinggallery
   metroPackageLogo: 
   metroPackageLogo140: 
   metroPackageLogo180: 
@@ -333,7 +329,7 @@ PlayerSettings:
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: ShootingGallery
+  metroApplicationDescription: ch.bfh.cpvr.unitycavethesis.shootinggallery
   metroStoreTileLogo80: 
   metroStoreTileLogo: 
   metroStoreTileLogo140: 

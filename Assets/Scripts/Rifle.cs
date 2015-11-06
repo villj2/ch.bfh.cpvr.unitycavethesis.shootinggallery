@@ -7,9 +7,9 @@ public class Rifle : MonoBehaviour {
     public float ShootDelay = 2f; // Seconds to wait after a shot is fired
     public GameObject RaycastSource;
     public Bullet Bullet;
-    public GameObject BulletTarget;
+    public Transform WhiteSmoke;
 
-	public int RotationMaxX = 30;
+    public int RotationMaxX = 30;
 	public int RotationMaxY = 30;
 
     RaycastHit hit;
@@ -20,7 +20,6 @@ public class Rifle : MonoBehaviour {
 
     private GameObject _rifleRotator;
     private Vector3 _rotOri;
-    public Transform _particleEffect;
     
     void Start () {
         _audioSource = GetComponent<AudioSource>();
@@ -69,11 +68,6 @@ public class Rifle : MonoBehaviour {
             _audioSource.Play();
             //_animation.Play("RifleShoot");
 
-            // Shoot Bullet
-            /*Bullet bulletClone = (Bullet)Instantiate(Bullet, BulletTarget.transform.position, BulletTarget.transform.rotation);
-            bulletClone.Init();
-            bulletClone.Shoot();*/
-
             // Raycast
             //var raycast = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             //Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -83,20 +77,33 @@ public class Rifle : MonoBehaviour {
 
             if (Physics.Raycast(raycast, out hit, 100))
 			{
-				if(hit.rigidbody != null && hit.rigidbody.gameObject.tag == "ShootingTarget")
+                if (hit.rigidbody != null)
 				{
-                    // FIXME Falls nicht genau im Zentrum des Screens geschossen wird, stimmt die AddForce() Richtung nicht ganz. --> Richtung vom Gewehr nehmen.
-                    hit.rigidbody.AddForce(Camera.main.transform.forward * 1000);
-				}
-                
-                IShootingTarget target = hit.collider.transform.root.GetComponent<IShootingTarget>();
-                if(target != null)
-                {
-                    target.Hit();
+                    // Duck
+                    if(hit.rigidbody.gameObject.tag == "Duck")
+                    {
+                        var hitPosition = hit.transform.position;
+                        var camPosition = CalculatedValues.Instance.CameraManager.CameraWithCursor.transform.position;
+                        var vectToTarget = (hitPosition - camPosition);
+
+                        hit.rigidbody.AddForce(vectToTarget.normalized * 1000);
+
+                        //IShootingTarget duck = hit.collider.GetComponent<IShootingTarget>();
+                        //duck.Hit();
+                    }
+                    // TrainingTarget
+                    else if (hit.rigidbody.gameObject.tag == "TrainingTarget")
+                    {
+                        IShootingTarget target = hit.collider.transform.root.GetComponent<IShootingTarget>();
+                        if (target != null)
+                        {
+                            target.Hit();
+                        }
+                    }
                 }
                 
                 // Instantiate Particle Smoke
-                var particleClone = Instantiate(_particleEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                var particleClone = Instantiate(WhiteSmoke, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy((particleClone as Transform).gameObject, 3);
             }
 

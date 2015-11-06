@@ -11,11 +11,13 @@ public class TrainingTarget : MonoBehaviour, IShootingTarget {
     private int _animBase;
     private Coroutine _coroutine;
     private AudioSource _audioSource;
+    private int _idleState;
 
     void Start () {
         _animator = GetComponent<Animator>();
         _random = new System.Random();
         _audioSource = GetComponent<AudioSource>();
+        _idleState = Animator.StringToHash("Idle");
 
         StartCoroutine(Show());
     }
@@ -31,7 +33,7 @@ public class TrainingTarget : MonoBehaviour, IShootingTarget {
         // Select random target
         _animBase = 10 * _random.Next(1, 4);
 
-        //Debug.Log("show animbase: " + animbase);
+        Debug.Log("show animbase: " + _animBase);
 
         _animator.SetInteger("AnimParam", _animBase);
 
@@ -44,16 +46,20 @@ public class TrainingTarget : MonoBehaviour, IShootingTarget {
 
         yield return new WaitForSeconds(_random.Next(RandomWaitUntilHide[0], RandomWaitUntilHide[1]));
 
-        //Debug.Log("hide");
-
         _animator.SetInteger("AnimParam", _animBase + 1);
+        
+        Debug.Log("hide: " + _animBase);
 
         _coroutine = StartCoroutine(Show());
     }
 
     public int Hit()
     {
-        if(_animator.GetInteger("AnimParam") > 0 && _animator.GetInteger("AnimParam") % 10 == 0)
+        Debug.Log("TrainingTarget.Hit()");
+        int currentState = _animator.GetCurrentAnimatorStateInfo(0).tagHash;
+
+        //if (_animator.GetInteger("AnimParam") > 0)
+        if (currentState != _idleState)
         {
             StopCoroutine(_coroutine);
 
