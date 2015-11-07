@@ -80,7 +80,7 @@ public class Rifle : MonoBehaviour {
                 if (hit.rigidbody != null)
 				{
                     // Duck
-                    if(hit.rigidbody.gameObject.tag == "Duck")
+                    if(hit.rigidbody.gameObject.tag == "Duck" && !hit.rigidbody.gameObject.GetComponent<Duck>().AlreadyHit)
                     {
                         var hitPosition = hit.transform.position;
                         var camPosition = CalculatedValues.Instance.CameraManager.CameraWithCursor.transform.position;
@@ -88,6 +88,7 @@ public class Rifle : MonoBehaviour {
 
                         hit.rigidbody.AddForce(vectToTarget.normalized * 1000);
 
+                        // Note: no need to call hit. automatically called after leaving plattform.
                         //IShootingTarget duck = hit.collider.GetComponent<IShootingTarget>();
                         //duck.Hit();
                     }

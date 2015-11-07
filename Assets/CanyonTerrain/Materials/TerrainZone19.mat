@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 8b5358d579b0bed4c8d5b8ec40164ee1, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 1998
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -18,6 +18,13 @@ Material:
       data:
         first:
           name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -97,6 +104,13 @@ Material:
           name: _Control2
         second:
           m_Texture: {fileID: 2800000, guid: 0c057025867f5ad45853866eec1ae243, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Baked
+        second:
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats: {}

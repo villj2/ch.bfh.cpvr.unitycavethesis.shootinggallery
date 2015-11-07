@@ -16,11 +16,17 @@ public class DuckMovingPlattform : MonoBehaviour {
     void Start () {
         _ducksOnPlattform = new List<GameObject>();
 
-        Duck duckFront = DuckFront.GetComponent<Duck>();
-        duckFront.OnHit += OnHit;
+        if (DuckFront != null)
+        {
+            Duck duckFront = DuckFront.GetComponent<Duck>();
+            duckFront.OnKill += OnKill;
+        }
 
-        Duck duckBack = DuckBack.GetComponent<Duck>();
-        duckBack.OnHit += OnHit;
+        if (DuckBack != null)
+        {
+            Duck duckBack = DuckBack.GetComponent<Duck>();
+            duckBack.OnKill += OnKill;
+        }
     }
 	
 	// Update is called once per frame
@@ -32,10 +38,12 @@ public class DuckMovingPlattform : MonoBehaviour {
         }
 	}
 
-    void OnHit(Duck duck, Vector3 initPos, Quaternion initRot)
+    void OnKill(Duck duck, Vector3 initPos, Quaternion initRot)
     {
         duck.transform.position = initPos;
         duck.transform.rotation = initRot;
+
+        _ducksOnPlattform.Remove(duck.gameObject);
     }
 
     void OnCollisionEnter(Collision col)
@@ -53,7 +61,7 @@ public class DuckMovingPlattform : MonoBehaviour {
         if (_ducksOnPlattform.Any(x => x.gameObject.GetInstanceID() == col.gameObject.GetInstanceID()))
         {
             _ducksOnPlattform.Remove(col.gameObject);
-            col.gameObject.GetComponent<Duck>().Dispose();
+            col.gameObject.GetComponent<Duck>().Hit();
         }
     }
 

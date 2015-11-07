@@ -3,11 +3,15 @@ using System.Collections;
 
 public class TrainingTarget : MonoBehaviour, IShootingTarget {
 
+    public const int POINTS = 40;
+
     public int[] RandomWaitUntilShow = new int[] { 1, 5 };
     public int[] RandomWaitUntilHide = new int[] { 2, 4 };
 
+    public delegate void DelegateHit(int points);
+    public static event DelegateHit OnHit;
+
     private Animator _animator;
-    private System.Random _random;
     private int _animBase;
     private Coroutine _coroutine;
     private AudioSource _audioSource;
@@ -15,7 +19,6 @@ public class TrainingTarget : MonoBehaviour, IShootingTarget {
 
     void Start () {
         _animator = GetComponent<Animator>();
-        _random = new System.Random();
         _audioSource = GetComponent<AudioSource>();
         _idleState = Animator.StringToHash("Idle");
 
@@ -28,12 +31,12 @@ public class TrainingTarget : MonoBehaviour, IShootingTarget {
     {
         //Debug.Log("wait until show");
 
-        yield return new WaitForSeconds(_random.Next(RandomWaitUntilShow[0], RandomWaitUntilShow[1]));
+        yield return new WaitForSeconds(Random.Range(RandomWaitUntilShow[0], RandomWaitUntilShow[1]));
 
         // Select random target
-        _animBase = 10 * _random.Next(1, 4);
+        _animBase = 10 * Random.Range(1, 3);
 
-        Debug.Log("show animbase: " + _animBase);
+        //Debug.Log("show animbase: " + _animBase);
 
         _animator.SetInteger("AnimParam", _animBase);
 
@@ -44,35 +47,31 @@ public class TrainingTarget : MonoBehaviour, IShootingTarget {
     {
         //Debug.Log("wait until hide");
 
-        yield return new WaitForSeconds(_random.Next(RandomWaitUntilHide[0], RandomWaitUntilHide[1]));
+        yield return new WaitForSeconds(Random.Range(RandomWaitUntilHide[0], RandomWaitUntilHide[1]));
 
         _animator.SetInteger("AnimParam", _animBase + 1);
         
-        Debug.Log("hide: " + _animBase);
+        //Debug.Log("hide: " + _animBase);
 
         _coroutine = StartCoroutine(Show());
     }
 
-    public int Hit()
+    public void Hit()
     {
-        Debug.Log("TrainingTarget.Hit()");
         int currentState = _animator.GetCurrentAnimatorStateInfo(0).tagHash;
 
         //if (_animator.GetInteger("AnimParam") > 0)
         if (currentState != _idleState)
         {
             StopCoroutine(_coroutine);
+            
+            OnHit(POINTS);
 
-            // TODO play audio
             _audioSource.Play();
 
             _animator.SetInteger("AnimParam", _animBase + 3);
 
             StartCoroutine(Show());
-
-            return 33;
         }
-
-        return 0;
     }
 }

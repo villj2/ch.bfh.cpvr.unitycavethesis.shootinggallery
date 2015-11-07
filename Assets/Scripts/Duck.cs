@@ -4,17 +4,34 @@ using System;
 
 public class Duck : MonoBehaviour, IShootingTarget
 {
-    public delegate void DelegateHit(Duck duck, Vector3 initPos, Quaternion initRot);
-    public event DelegateHit OnHit;
+    public const int POINTS = 30;
+
+    public bool AlreadyHit {
+        get
+        {
+            return _alreadyHit;
+        }
+    }
+
+    public delegate void DelegateKill(Duck duck, Vector3 initPos, Quaternion initRot);
+    public event DelegateKill OnKill;
+
+    public delegate void DelegateHit(int points);
+    public static event DelegateHit OnHit;
 
     private int _direction = 1;
-    private float _speed = 0.5f;
+    private float _speed;
     private Vector3 _initPos;
     private Quaternion _initRot;
+    private AudioSource _audioSource;
+    private bool _alreadyHit = false;
 
-	// Use this for initialization
-	void Start () {
-        //_aufruf1 = new DelegateHit(DuckMovingPlattform.OnHit);
+    // Use this for initialization
+    void Start () {
+
+        _speed = UnityEngine.Random.Range(0.1f, 1f);
+
+        _audioSource = GetComponent<AudioSource>();
 
         _initPos = gameObject.transform.position;
         _initRot = gameObject.transform.rotation;
@@ -25,18 +42,30 @@ public class Duck : MonoBehaviour, IShootingTarget
 	
 	}
 
-    public void Dispose()
+    public void Hit()
     {
-        StartCoroutine(Kill());
+        if (!_alreadyHit)
+        {
+            _alreadyHit = true;
+            _speed = 0;
+
+            OnHit(POINTS);
+
+            _audioSource.Play();
+
+            StartCoroutine(Kill());
+        }
     }
 
     IEnumerator Kill()
     {
-        // TODO random time
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(UnityEngine.Random.Range(4, 8));
 
         //Destroy(this.gameObject);
-        OnHit(gameObject.GetComponent<Duck>(), _initPos, _initRot);
+        OnKill(gameObject.GetComponent<Duck>(), _initPos, _initRot);
+
+        Start();
+        _alreadyHit = false;
     }
 
     public void Move()
@@ -46,20 +75,19 @@ public class Duck : MonoBehaviour, IShootingTarget
 
     void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.name == "BlockerLeft")
+        if (!_alreadyHit)
         {
-            _direction *= -1;
+            if(col.gameObject.name == "BlockerLeft")
+            {
+                _speed = UnityEngine.Random.Range(0.1f, 1f);
+                _direction *= -1;
+            
+            }
+            else if(col.gameObject.name == "BlockerRight")
+            {
+                _speed = UnityEngine.Random.Range(0.1f, 1f);
+                _direction *= -1;
+            }
         }
-        else if(col.gameObject.name == "BlockerRight")
-        {
-            _direction *= -1;
-        }
-    }
-
-    public int Hit()
-    {
-        Dispose();
-
-        return 0;
     }
 }

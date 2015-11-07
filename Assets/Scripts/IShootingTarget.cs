@@ -1,4 +1,4 @@
 ﻿public interface IShootingTarget {
 
-    int Hit();
+    void Hit();
 }
