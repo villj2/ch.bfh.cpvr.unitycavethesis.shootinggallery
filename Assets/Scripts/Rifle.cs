@@ -25,8 +25,8 @@ public class Rifle : MonoBehaviour {
         _audioSource = GetComponent<AudioSource>();
         _animation = GetComponent<Animation>();
 
-        _rifleRotator = GameObject.Find("RifleRotator");
-        _rotOri = _rifleRotator.transform.rotation.eulerAngles;
+        //_rifleRotator = GameObject.Find("RifleRotator");
+        //_rotOri = _rifleRotator.transform.rotation.eulerAngles;
 
         _animation.Stop();
     }
@@ -37,26 +37,6 @@ public class Rifle : MonoBehaviour {
         {
             StartCoroutine(Shoot());
         }
-
-        // Get relative rotation between eyes / wand
-        var rotFromPlugin = Quaternion.Inverse(CalculatedValues.Instance.Eyes.transform.rotation) * CalculatedValues.Instance.Wand.transform.rotation;
-        //var rotFromPlugin = CalculatedValues.Instance.Eyes.transform.rotation * CalculatedValues.Instance.Wand.transform.rotation;
-
-        //Debug.Log("rotFromPlugin: " + rotFromPlugin.eulerAngles);
-
-        var q = Quaternion.FromToRotation(CalculatedValues.Instance.Eyes.transform.forward, CalculatedValues.Instance.Wand.transform.forward);
-        rotFromPlugin = q * rotFromPlugin;
-
-        // Add rotation from RifleRotator to y-axis of relative rotation between eyes / wand
-        rotFromPlugin *= Quaternion.AngleAxis(_rifleRotator.transform.rotation.eulerAngles.y, Vector3.up);
-        //rotFromPlugin *= _rifleRotator.transform.rotation;
-        
-        // FIXME wird die wand links oder rechts angeschaut, rotiert das gewehr bei einer wand/eyes-änderung auf einer falschen achse
-
-        // TODO ignore rotation on z
-        rotFromPlugin *= Quaternion.AngleAxis(0, Vector3.right);
-
-        transform.parent.rotation = rotFromPlugin;
     }
 
     IEnumerator Shoot()
@@ -95,7 +75,7 @@ public class Rifle : MonoBehaviour {
                     // TrainingTarget
                     else if (hit.rigidbody.gameObject.tag == "TrainingTarget")
                     {
-                        IShootingTarget target = hit.collider.transform.root.GetComponent<IShootingTarget>();
+                        IShootingTarget target = hit.collider.transform.parent.parent.parent.parent.parent.GetComponent<IShootingTarget>();
                         if (target != null)
                         {
                             target.Hit();

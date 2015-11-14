@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
 
         var eyes = CalculatedValues.Instance.Eyes;
         
-        _rifleRotator.transform.rotation = Quaternion.AngleAxis(eyes.transform.rotation.eulerAngles.y, Vector3.up);
+        //_rifleRotator.transform.rotation = Quaternion.AngleAxis(eyes.transform.rotation.eulerAngles.y, Vector3.up);
 
         //if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         //{
