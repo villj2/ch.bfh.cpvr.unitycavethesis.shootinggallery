@@ -2086,6 +2086,8 @@ MonoBehaviour:
   RaycastSource: {fileID: 0}
   Bullet: {fileID: 0}
   WhiteSmoke: {fileID: 473974, guid: e103f45acb2efb747805403fb7cd5662, type: 2}
+  SmokeShoot: {fileID: 473974, guid: a5b1f4cb8dcae8948a05862fc8d2092b, type: 2}
+  SmokeShootPosition: {fileID: 1527790193}
   RotationMaxX: 30
   RotationMaxY: 30
 --- !u!82 &379910878
@@ -2417,18 +2419,6 @@ Prefab:
     m_TransformParent: {fileID: 1925223593}
     m_Modifications:
     - target: {fileID: 442572, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -.0850000009
-      objectReference: {fileID: 0}
-    - target: {fileID: 442572, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -.165999994
-      objectReference: {fileID: 0}
-    - target: {fileID: 442572, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: .814999998
-      objectReference: {fileID: 0}
-    - target: {fileID: 442572, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -2583,6 +2573,18 @@ Prefab:
     - target: {fileID: 418218, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
       propertyPath: m_LocalPosition.z
       value: -125
+      objectReference: {fileID: 0}
+    - target: {fileID: 442572, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: .814999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 442572, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -.165999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 442572, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -.0850000009
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9585146, guid: 9479fda1b09e798479e63d8e300baffb, type: 2}
@@ -9603,6 +9605,33 @@ AudioSource:
 Transform:
   m_PrefabParentObject: {fileID: 400032, guid: f81838fe371e0904795d845a52dcee69, type: 3}
   m_PrefabInternal: {fileID: 1527468709}
+--- !u!1 &1527790192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1527790193}
+  m_Layer: 0
+  m_Name: SmokeShootPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1527790193
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1527790192}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.9700003, y: 53.2000008, z: 31.6000004}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 379910876}
+  m_RootOrder: 4
 --- !u!4 &1535242584 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: 9d1d63087a9e3144ebadc350cb840752, type: 3}
@@ -12568,7 +12597,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2100986170}
   m_Layer: 0
-  m_Name: RfileRotatorWand
+  m_Name: RifleRotatorWand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12633,6 +12662,8 @@ MonoBehaviour:
   RaycastSource: {fileID: 0}
   Bullet: {fileID: 0}
   WhiteSmoke: {fileID: 0}
+  SmokeShoot: {fileID: 0}
+  SmokeShootPosition: {fileID: 0}
   RotationMaxX: 30
   RotationMaxY: 30
 --- !u!82 &2118348822

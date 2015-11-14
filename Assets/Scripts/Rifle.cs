@@ -8,6 +8,8 @@ public class Rifle : MonoBehaviour {
     public GameObject RaycastSource;
     public Bullet Bullet;
     public Transform WhiteSmoke;
+    public Transform SmokeShoot;
+    public Transform SmokeShootPosition;
 
     public int RotationMaxX = 30;
 	public int RotationMaxY = 30;
@@ -46,7 +48,11 @@ public class Rifle : MonoBehaviour {
             _recentlyShot = true;
 
             _audioSource.Play();
-            //_animation.Play("RifleShoot");
+            _animation.Play("RifleShoot");
+
+            // SmokeShoot
+            var smokeShoot = Instantiate(SmokeShoot, SmokeShootPosition.transform.position, SmokeShootPosition.transform.rotation);
+            Destroy((smokeShoot as Transform).gameObject, 3);
 
             // Raycast
             //var raycast = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
