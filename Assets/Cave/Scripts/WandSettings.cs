@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
+
 
 namespace Cave
 {
@@ -25,6 +25,10 @@ namespace Cave
         public bool TrackRotation = true;
         public BlockRotationAxisWand RotationAxisConstraints;
         public GameObject RotationTarget;
+
+        [Header("Joystick")]
+        public bool allowJoystick = true;
+
 
         //public enum MyCustomClassEnum
         //{

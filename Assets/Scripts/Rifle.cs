@@ -58,8 +58,8 @@ public class Rifle : MonoBehaviour {
             //var raycast = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             //Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            Debug.Log("Shoot with cam: " + CalculatedValues.Instance.CameraManager.CameraWithCursor.name);
-            Ray raycast = CalculatedValues.Instance.CameraManager.CameraWithCursor.ScreenPointToRay(Input.mousePosition);
+            Debug.Log("Shoot with cam: " + API.Instance.CameraManager.CameraWithCursor.name);
+            Ray raycast = API.Instance.CameraManager.CameraWithCursor.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(raycast, out hit, 100))
 			{
@@ -69,7 +69,7 @@ public class Rifle : MonoBehaviour {
                     if(hit.rigidbody.gameObject.tag == "Duck" && !hit.rigidbody.gameObject.GetComponent<Duck>().AlreadyHit)
                     {
                         var hitPosition = hit.transform.position;
-                        var camPosition = CalculatedValues.Instance.CameraManager.CameraWithCursor.transform.position;
+                        var camPosition = API.Instance.CameraManager.CameraWithCursor.transform.position;
                         var vectToTarget = (hitPosition - camPosition);
 
                         hit.rigidbody.AddForce(vectToTarget.normalized * 1000);

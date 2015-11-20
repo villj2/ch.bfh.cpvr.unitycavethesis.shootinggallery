@@ -13,10 +13,10 @@ public class RifleRotator : MonoBehaviour {
 	void Update () {
 
         // Get relative rotation between eyes / wand
-        var rotFromPlugin = Quaternion.Inverse(CalculatedValues.Instance.Eyes.transform.rotation) * CalculatedValues.Instance.Wand.transform.rotation;
+        var rotFromPlugin = Quaternion.Inverse(API.Instance.Eyes.transform.rotation) * API.Instance.Wand.transform.rotation;
 
         // Rotate RotatorEyes
-        transform.parent.parent.localRotation = CalculatedValues.Instance.Eyes.transform.rotation;
+        transform.parent.parent.localRotation = API.Instance.Eyes.transform.rotation;
 
         // Rotate RotatorWand
         transform.parent.localRotation = rotFromPlugin;

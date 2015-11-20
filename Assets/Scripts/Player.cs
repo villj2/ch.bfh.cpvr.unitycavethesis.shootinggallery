@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        var eyes = CalculatedValues.Instance.Eyes;
+        var eyes = API.Instance.Eyes;
         
         //_rifleRotator.transform.rotation = Quaternion.AngleAxis(eyes.transform.rotation.eulerAngles.y, Vector3.up);
 
