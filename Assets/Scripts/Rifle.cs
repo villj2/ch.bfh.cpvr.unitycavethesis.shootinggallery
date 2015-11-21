@@ -19,16 +19,14 @@ public class Rifle : MonoBehaviour {
     private AudioSource _audioSource;
     private Animation _animation;
     private bool _recentlyShot = false;
-
-    private GameObject _rifleRotator;
-    private Vector3 _rotOri;
+    private CameraManager _cameraManager;
     
     void Start () {
         _audioSource = GetComponent<AudioSource>();
         _animation = GetComponent<Animation>();
+        _cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
 
-        //_rifleRotator = GameObject.Find("RifleRotator");
-        //_rotOri = _rifleRotator.transform.rotation.eulerAngles;
+        var cc = API.Instance.Cave.CameraContainer;
 
         _animation.Stop();
     }
@@ -57,9 +55,9 @@ public class Rifle : MonoBehaviour {
             // Raycast
             //var raycast = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             //Ray raycast = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            Debug.Log("Shoot with cam: " + API.Instance.CameraManager.CameraWithCursor.name);
-            Ray raycast = API.Instance.CameraManager.CameraWithCursor.ScreenPointToRay(Input.mousePosition);
+            
+            Debug.Log("Shoot with cam: " + _cameraManager.CameraWithCursor.name);
+            Ray raycast = _cameraManager.CameraWithCursor.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(raycast, out hit, 100))
 			{
@@ -69,7 +67,7 @@ public class Rifle : MonoBehaviour {
                     if(hit.rigidbody.gameObject.tag == "Duck" && !hit.rigidbody.gameObject.GetComponent<Duck>().AlreadyHit)
                     {
                         var hitPosition = hit.transform.position;
-                        var camPosition = API.Instance.CameraManager.CameraWithCursor.transform.position;
+                        var camPosition = _cameraManager.CameraWithCursor.transform.position;
                         var vectToTarget = (hitPosition - camPosition);
 
                         hit.rigidbody.AddForce(vectToTarget.normalized * 1000);
