@@ -9,17 +9,15 @@ public class UIPoints : MonoBehaviour {
     private Text _text;
     private int _points;
 
-    private CaveMain _main;
+    //private CaveMain _main;
     private RectTransform _rectTransform;
 
 	// Use this for initialization
 	void Start () {
 
-        _main = GameObject.Find("Cave").GetComponent<CaveMain>();
-
         // Set Position
         _rectTransform = GetComponent<RectTransform>();
-        _rectTransform.anchoredPosition = new Vector2(_main.BeamerResolutionWidth + 20, -30f);
+        _rectTransform.anchoredPosition = new Vector2(API.Instance.Cave.BeamerResolutionWidth + 20, -30f);
 
         _text = GetComponent<Text>();
         _points = 0;

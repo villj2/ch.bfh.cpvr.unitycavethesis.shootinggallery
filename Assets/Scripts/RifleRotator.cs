@@ -7,7 +7,8 @@ public class RifleRotator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        transform.parent.parent.parent = API.Instance.Cave.CameraContainer.transform;
+        //transform.parent.parent.parent = API.Instance.Cave.CameraContainer.transform;
+        transform.parent.parent.parent = API.Instance.CameraContainer.transform;
         transform.parent.parent.localPosition = Vector3.zero;
     }
 	
@@ -19,7 +20,8 @@ public class RifleRotator : MonoBehaviour {
         var rotFromPlugin = API.Instance.AngleWandEyes;
 
         // Rotate RotatorEyes
-        transform.parent.parent.localRotation = API.Instance.Cave.Eyes.transform.rotation;
+        //transform.parent.parent.localRotation = API.Instance.Cave.Eyes.transform.rotation;
+        transform.parent.parent.localRotation = API.Instance.Eyes.transform.rotation;
 
         // Rotate RotatorWand
         transform.parent.localRotation = rotFromPlugin;

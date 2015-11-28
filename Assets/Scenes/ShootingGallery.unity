@@ -1998,7 +1998,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShootDelay: .5
   RaycastSource: {fileID: 0}
-  Bullet: {fileID: 0}
   WhiteSmoke: {fileID: 473974, guid: e103f45acb2efb747805403fb7cd5662, type: 2}
   SmokeShoot: {fileID: 473974, guid: a5b1f4cb8dcae8948a05862fc8d2092b, type: 2}
   SmokeShootPosition: {fileID: 1527790193}
@@ -11706,7 +11705,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShootDelay: 2
   RaycastSource: {fileID: 0}
-  Bullet: {fileID: 0}
   WhiteSmoke: {fileID: 0}
   SmokeShoot: {fileID: 0}
   SmokeShootPosition: {fileID: 0}

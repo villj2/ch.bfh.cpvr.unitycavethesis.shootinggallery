@@ -24,6 +24,6 @@ public class CameraContainer : MonoBehaviour {
             transform.localPosition = Vector3.zero;
         }
     
-        transform.localPosition = Vector3.Scale(_main.Eyes.transform.localPosition, posWithSensitity);
+        transform.localPosition = Vector3.Scale(API.Instance.Eyes.transform.localPosition, posWithSensitity);
 	}
 }

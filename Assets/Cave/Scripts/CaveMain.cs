@@ -28,9 +28,10 @@ namespace Cave
         public int BeamerResolutionWidth = 1280;
         public int BeamerResolutionHeight = 960;
         public string Host = "192.168.0.201";
-        public CAVEMode myCAVEMode = CAVEMode.FourScreen;
-        public TrackedObject myTrackingMode = TrackedObject.Eyes;
-        public bool rotateCave = true;
+        public CAVEMode CAVEMode = CAVEMode.FourScreen;
+        public float EyeDistance = 0.07f;
+        //public TrackedObject myTrackingMode = TrackedObject.Eyes;
+        //public bool rotateCave = true;
         //this is used to calc the frustum
         //public CAVEDimensions CaveDimensions;
 
@@ -42,14 +43,9 @@ namespace Cave
 
         [Header("Gamepad")]
         public GamepadSettings GamepadSettings;
-
-        [Header("Weiteres")]
-        public float EyeDistance = 0.07f;
-
         #endregion
 
         #region "public properties"
-
         public Transform CAVELeft { get { return _CAVELeft; } }
         public Transform CAVEFront { get { return _CAVEFront; } }
         public Transform CAVERight { get { return _CAVERight; } }
@@ -60,13 +56,14 @@ namespace Cave
         public Transform CAVERightXXL { get { return _CAVERightXXL; } }
         public Transform CAVEBottomXXL { get { return _CAVEBottomXXL; } }
 
-        public Eyes Eyes { get { return _eyes; } }
-        public Wand Wand { get { return _wand; } }
+        //public Eyes Eyes { get { return _eyes; } }
+        //public Wand Wand { get { return _wand; } }
 
-        public CameraManager CameraManager { get { return _cameraManager; } }
-        public FrustumManager FrustumManager { get { return _frustumManager; } }
-        public GameObject CameraContainer { get { return _cameraContainer; } }
+        //public CameraManager CameraManager { get { return _cameraManager; } }
+        //public FrustumManager FrustumManager { get { return _frustumManager; } }
+        //public GameObject CameraContainer { get { return _cameraContainer; } }
 
+        [Header("System")]
         public CameraManager CameraManagerPrefab;
         public FrustumManager FrustumManagerPrefab;
         public GameObject CameraContainerPrefab;
@@ -88,12 +85,12 @@ namespace Cave
         private Transform _CAVERightXXL;
         private Transform _CAVEBottomXXL;
 
-        private Eyes _eyes;
-        private Wand _wand;
+        //private Eyes _eyes;
+        //private Wand _wand;
 
-        private CameraManager _cameraManager;
-        private FrustumManager _frustumManager;
-        private GameObject _cameraContainer;
+        //private CameraManager _cameraManager;
+        //private FrustumManager _frustumManager;
+        //private GameObject _cameraContainer;
 
         private List<Camera> mySecondaryCameras = new List<Camera>();
         private List<Transform> _walls = new List<Transform>();
@@ -126,25 +123,33 @@ namespace Cave
             _wallsXXL.Add(_CAVERightXXL = GameObject.FindWithTag("CaveRightXXL").GetComponent<Transform>());
             _wallsXXL.Add(_CAVEBottomXXL = GameObject.FindWithTag("CaveBottomXXL").GetComponent<Transform>());
 
-            _eyes = GameObject.FindWithTag("Eyes").GetComponent<Eyes>();
-            _wand = GameObject.FindWithTag("Wand").GetComponent<Wand>();
+            //_eyes = GameObject.FindWithTag("Eyes").GetComponent<Eyes>();
+            //_wand = GameObject.FindWithTag("Wand").GetComponent<Wand>();
 
-            _cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
-            _frustumManager = GameObject.FindWithTag("FrustumManager").GetComponent<FrustumManager>();
-            _cameraContainer = GameObject.FindWithTag("CameraContainer");
+            //_cameraManager = GameObject.FindWithTag("CameraManager").GetComponent<CameraManager>();
+            //_frustumManager = GameObject.FindWithTag("FrustumManager").GetComponent<FrustumManager>();
+            //_cameraContainer = GameObject.FindWithTag("CameraContainer");
 
-            if (myCAVEMode == CAVEMode.FourScreen) EyeDistance = 0f;
+            if (CAVEMode == CAVEMode.FourScreen) EyeDistance = 0f;
 
             ToggleColliders(false);
 
-            API.Instance.Calculate();
+            //API.Instance.Calculate();
+
+
+            // expand playersettings for mobile ionput, so that we have access to the virtualAxis from wand
+            //String scriptDefineSymbols = UnityEditor.PlayerSettings.GetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone);
+            //if (scriptDefineSymbols.IndexOf("MOBILE_INPUT") < 0)
+            //{
+            //    UnityEditor.PlayerSettings.SetScriptingDefineSymbolsForGroup(UnityEditor.BuildTargetGroup.Standalone, scriptDefineSymbols + "; MOBILE_INPUT");
+            //}
         }
 
         // Update is called once per frame
         void Update()
         {
             //performance ?
-            API.Instance.Calculate();
+            //API.Instance.Calculate();
 
             transform.position = Camera.main.transform.position;
             transform.rotation = Camera.main.transform.rotation;

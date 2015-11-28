@@ -7,14 +7,10 @@ using System;
 public class UITime : MonoBehaviour {
 
     private Text _text;
-
-    private CaveMain _main;
     private RectTransform _rectTransform;
 
     // Use this for initialization
     void Start () {
-
-        _main = GameObject.Find("Cave").GetComponent<CaveMain>();
 
         // Set Position
         _rectTransform = GetComponent<RectTransform>();
