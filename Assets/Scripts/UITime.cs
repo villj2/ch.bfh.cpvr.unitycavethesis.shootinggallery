@@ -13,8 +13,8 @@ public class UITime : MonoBehaviour {
     void Start () {
 
         // Set Position
-        _rectTransform = GetComponent<RectTransform>();
-        _rectTransform.anchoredPosition = new Vector2(-100f, -30f);
+        //_rectTransform = GetComponent<RectTransform>();
+        //_rectTransform.anchoredPosition = new Vector2(-100f, -30f);
 
         _text = GetComponent<Text>();
     }

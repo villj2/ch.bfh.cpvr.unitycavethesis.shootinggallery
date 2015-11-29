@@ -16,8 +16,8 @@ public class UIPoints : MonoBehaviour {
 	void Start () {
 
         // Set Position
-        _rectTransform = GetComponent<RectTransform>();
-        _rectTransform.anchoredPosition = new Vector2(API.Instance.Cave.BeamerResolutionWidth + 20, -30f);
+        //_rectTransform = GetComponent<RectTransform>();
+        //_rectTransform.anchoredPosition = new Vector2(API.Instance.Cave.BeamerResolutionWidth + 20, -30f);
 
         _text = GetComponent<Text>();
         _points = 0;
@@ -32,7 +32,7 @@ public class UIPoints : MonoBehaviour {
     {
         _points += points;
 
-        _text.text = "Punktzahl: " + _points.ToString();
+        _text.text = "Punkte: " + _points.ToString();
     }
 
     // Update is called once per frame

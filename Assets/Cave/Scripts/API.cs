@@ -87,7 +87,7 @@ namespace Cave
         }
 
         public Vector2 GameViewSize { get { return GetMainGameViewSize(); } }
-        public Quaternion AngleWandEyes { get { return _angleWandEyes = Quaternion.Inverse(Eyes.transform.rotation) * Wand.transform.rotation; } }
+        public Quaternion AngleWandEyes { get { return Quaternion.Inverse(Eyes.transform.rotation) * Wand.transform.rotation; } }
         public Vector3 DirectionWandEyes { get { return Eyes.transform.position - Wand.transform.position; } }
 
         public Vector2 WandJoystick { get { return Wand.JoystickPosition; } }
@@ -98,9 +98,6 @@ namespace Cave
         private CameraManager _cameraManager;
         private FrustumManager _frustumManager;
         private GameObject _cameraContainer;
-
-        private Quaternion _angleWandEyes;
-        private Vector3 _directionWandEyes;
 
         public static API Instance
         {

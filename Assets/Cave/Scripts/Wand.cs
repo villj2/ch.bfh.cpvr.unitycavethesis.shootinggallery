@@ -8,7 +8,6 @@ namespace Cave
 {
     public class Wand : MonoBehaviour
     {
-
         public Vector2 JoystickPosition { get { return _joystickPos; } }
         public bool TopLeft { get { return _topLeft; } }
         public bool TopRight { get { return _topRight; } }
@@ -17,8 +16,8 @@ namespace Cave
         public bool JoystickPress { get { return _joystickPress; } }
         public bool ButtonBack { get { return _buttonBack; } }
 
+        public Sprite MouseCursorDuplicate;
 
-        private CaveMain _main;
         private bool _usePositionSmoothing;
         private bool _useRotationSmoothing;
         private float _rotJitterReduction;
@@ -33,29 +32,27 @@ namespace Cave
         private bool _bottomRight;
         private bool _joystickPress;
         private bool _buttonBack;
-            
+
+        private RectTransform _mouseCursorDuplicate;
 
         //private CrossPlatformInputManager.VirtualAxis _hVirtualAxis;
         //private CrossPlatformInputManager.VirtualAxis _vVirtualAxis;
 
-        
-
-
         // Use this for initialization
         void Start()
         {
-            _main = GameObject.Find("Cave").GetComponent<CaveMain>();
-            _usePositionSmoothing = _main.WandSettings.PositionMovementConstraints.useOneEuroSmoothing;
-            _useRotationSmoothing = _main.WandSettings.RotationMovementConstraints.useOneEuroSmoothing;
+            _usePositionSmoothing = API.Instance.Cave.WandSettings.PositionMovementConstraints.useOneEuroSmoothing;
+            _useRotationSmoothing = API.Instance.Cave.WandSettings.RotationMovementConstraints.useOneEuroSmoothing;
 
-            _rotJitterReduction = _main.WandSettings.RotationMovementConstraints.jitterReduction;
-            _rotLagReduction = _main.WandSettings.RotationMovementConstraints.lagReduction;
+            _rotJitterReduction = API.Instance.Cave.WandSettings.RotationMovementConstraints.jitterReduction;
+            _rotLagReduction = API.Instance.Cave.WandSettings.RotationMovementConstraints.lagReduction;
 
-            _posJitterReduction = _main.WandSettings.PositionMovementConstraints.jitterReduction;
-            _posLagReduction = _main.WandSettings.PositionMovementConstraints.lagReduction;
+            _posJitterReduction = API.Instance.Cave.WandSettings.PositionMovementConstraints.jitterReduction;
+            _posLagReduction = API.Instance.Cave.WandSettings.PositionMovementConstraints.lagReduction;
 
             _joystickPos = Vector2.zero;
-            
+
+            _mouseCursorDuplicate = GameObject.Find("MouseCursorDuplicate").GetComponent<RectTransform>();
 
             //if (!CrossPlatformInputManager.AxisExists("Horizontal"))
             //{
@@ -69,7 +66,7 @@ namespace Cave
 
             //if (!CrossPlatformInputManager.AxisExists("Vertical"))
             //{
-                
+
             //    _vVirtualAxis = new CrossPlatformInputManager.VirtualAxis("Vertical",true);
             //    CrossPlatformInputManager.RegisterVirtualAxis(_vVirtualAxis);
             //}
@@ -77,9 +74,6 @@ namespace Cave
             //{
             //    _vVirtualAxis = CrossPlatformInputManager.VirtualAxisReference("Vertical");
             //}
-
-
-
         }
 
         // Update is called once per frame
@@ -94,11 +88,11 @@ namespace Cave
 
         private void HandlePosition()
         {
-            if (_main.WandSettings.TrackPosition)
+            if (API.Instance.Cave.WandSettings.TrackPosition)
             {
                 // Position
                 var posOri = transform.localPosition;
-                var pos = VRPN.vrpnTrackerPos(_main.WandSettings.WorldVizObject + "@" + _main.Host, _main.WandSettings.Channel);
+                var pos = VRPN.vrpnTrackerPos(API.Instance.Cave.WandSettings.WorldVizObject + "@" + API.Instance.Cave.Host, API.Instance.Cave.WandSettings.Channel);
                 if (_usePositionSmoothing)
                 {
                     Vector3 filteredPos = Vector3.zero;
@@ -108,9 +102,9 @@ namespace Cave
                 }
 
                 // Block Axis
-                if (_main.WandSettings.PositionAxisConstraints.X) pos.x = posOri.x;
-                if (_main.WandSettings.PositionAxisConstraints.Y) pos.x = posOri.z;
-                if (_main.WandSettings.PositionAxisConstraints.Z) pos.x = posOri.z;
+                if (API.Instance.Cave.WandSettings.PositionAxisConstraints.X) pos.x = posOri.x;
+                if (API.Instance.Cave.WandSettings.PositionAxisConstraints.Y) pos.x = posOri.z;
+                if (API.Instance.Cave.WandSettings.PositionAxisConstraints.Z) pos.x = posOri.z;
 
                 transform.localPosition = pos;
             }
@@ -118,9 +112,9 @@ namespace Cave
 
         private void HandleRotation()
         {
-            if (_main.WandSettings.TrackRotation)
+            if (API.Instance.Cave.WandSettings.TrackRotation)
             {
-                var rot = VRPN.vrpnTrackerQuat(_main.WandSettings.WorldVizObject + "@" + _main.Host, _main.WandSettings.Channel);
+                var rot = VRPN.vrpnTrackerQuat(API.Instance.Cave.WandSettings.WorldVizObject + "@" + API.Instance.Cave.Host, API.Instance.Cave.WandSettings.Channel);
                 Vector3 rotOri = transform.rotation.eulerAngles;
 
                 if (_useRotationSmoothing)
@@ -136,19 +130,14 @@ namespace Cave
 
         private void HandleJoystick()
         {
-
-            //Debug.Log("Joystick X: " + VRPN.vrpnAnalog(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 0));
-            //Debug.Log("Joystick Y: " + VRPN.vrpnAnalog(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 1));
-
-
+            //Debug.Log("Joystick X: " + VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 0));
+            //Debug.Log("Joystick Y: " + VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 1));
+            
             Vector2 vCurr = new Vector2();
-            vCurr.x = (float)VRPN.vrpnAnalog(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 0);
-            vCurr.y = (float)VRPN.vrpnAnalog(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 1);
+            vCurr.x = (float)VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 0);
+            vCurr.y = (float)VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 1);
 
             _joystickPos = vCurr;
-
-
-
         }
 
         private void HandleButtons()
@@ -158,36 +147,31 @@ namespace Cave
             // NOTE: Convert string to keycode: KeyCode thisKeyCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), "Whatever") ;
             // http://inputsimulator.codeplex.com/SourceControl/latest#WindowsInput/Native/VirtualKeyCode.cs
 
-            _topLeft = VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 1);
-            _topRight = VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 2);
-            _bottomLeft = VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 0);
-            _bottomRight = VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 3);
-            _joystickPress = VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 4);
-            _buttonBack = VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 5);
+            _topLeft = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 1);
+            _topRight = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 2);
+            _bottomLeft = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 0);
+            _bottomRight = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 3);
+            _joystickPress = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 4);
+            _buttonBack = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 5);
 
-
-            //if (_topLeft) Event.KeyboardEvent(_main.WandSettings.ButtonMapping.TopLeft);
-            //if (_topRight) Event.KeyboardEvent(_main.WandSettings.ButtonMapping.TopRight);
-            //if (_bottomLeft) Event.KeyboardEvent(_main.WandSettings.ButtonMapping.BottomLeft);
-            //if (_bottomRight) Event.KeyboardEvent(_main.WandSettings.ButtonMapping.BottomRight);
-            //if (_joystickPress) Event.KeyboardEvent(_main.WandSettings.ButtonMapping.Joystick);
-            //if (_buttonBack) Event.KeyboardEvent(_main.WandSettings.ButtonMapping.Back);
+            //if (_topLeft) Event.KeyboardEvent(API.Instance.Cave.WandSettings.ButtonMapping.TopLeft);
+            //if (_topRight) Event.KeyboardEvent(API.Instance.Cave.WandSettings.ButtonMapping.TopRight);
+            //if (_bottomLeft) Event.KeyboardEvent(API.Instance.Cave.WandSettings.ButtonMapping.BottomLeft);
+            //if (_bottomRight) Event.KeyboardEvent(API.Instance.Cave.WandSettings.ButtonMapping.BottomRight);
+            //if (_joystickPress) Event.KeyboardEvent(API.Instance.Cave.WandSettings.ButtonMapping.Joystick);
+            //if (_buttonBack) Event.KeyboardEvent(API.Instance.Cave.WandSettings.ButtonMapping.Back);
 
 
             //WindowsInput.InputSimulator.SimulateKeyPress(WindowsInput.VirtualKeyCode.SPACE);
 
-            //Debug.Log("Top / Left: " + VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 1));
-            //Debug.Log("Top / Right: " + VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 2));
-            //Debug.Log("Bottom / Left: " + VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 0));
-            //Debug.Log("Bottom / Right: " + VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 3));
-            //Debug.Log("Joystick Press: " + VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 4));
-            //Debug.Log("Button Back: " + VRPN.vrpnButton(_main.WandSettings.WorldVizObjectButtons + "@" + _main.Host + ":" + _main.WandSettings.Port, 5));
+            //Debug.Log("Top / Left: " + VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 1));
+            //Debug.Log("Top / Right: " + VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 2));
+            //Debug.Log("Bottom / Left: " + VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 0));
+            //Debug.Log("Bottom / Right: " + VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 3));
+            //Debug.Log("Joystick Press: " + VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 4));
+            //Debug.Log("Button Back: " + VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 5));
 
             //Debug.Log("------------------");
-
-        
-
-
         }
 
         private void SetCursor()
@@ -199,7 +183,7 @@ namespace Cave
             var fwd = transform.TransformDirection(Vector3.forward);
 
             // Enable Collider temporarily
-            _main.ToggleColliders(true);
+            API.Instance.Cave.ToggleColliders(true);
 
             Ray ray = new Ray(transform.position, fwd);
             RaycastHit hit;
@@ -220,7 +204,7 @@ namespace Cave
                         break;
 
                     case "CaveFront":
-                        _multiplierX = 1;
+                        _multiplierX = 2;
                         _multiplierY = 0;
                         break;
 
@@ -230,18 +214,36 @@ namespace Cave
                         break;
 
                     case "CaveBottom":
-                        _multiplierX = 1;
+                        _multiplierX = 2;
                         _multiplierY = 1;
                         break;
                 }
 
-                float targetY = ((localSpaceHitPoint.x + 5f) / 10f) * _main.BeamerResolutionHeight + _multiplierY * _main.BeamerResolutionHeight;
-                float targetX = ((localSpaceHitPoint.z + 5f) / 10f) * _main.BeamerResolutionWidth + _multiplierX * _main.BeamerResolutionWidth;
+                float localHitpointNoramlizedX = 1f - ((localSpaceHitPoint.z + 5f) / 10f);
+                float localHitpointNoramlizedY = 1f - ((localSpaceHitPoint.x + 5f) / 10f);
 
-                //System.Windows.Forms.Cursor.Position = new Point(Convert.ToInt32(targetX), Convert.ToInt32(targetY));
+                float posCaveSideX = localHitpointNoramlizedX * API.Instance.Cave.BeamerResolutionWidth;
+                float posCaveSideY = localHitpointNoramlizedY * API.Instance.Cave.BeamerResolutionHeight;
+
+                float posCaveX = posCaveSideX + _multiplierX * API.Instance.Cave.BeamerResolutionWidth;
+                float posCaveY = posCaveSideY + _multiplierY * API.Instance.Cave.BeamerResolutionHeight;
+
+                float posCaveDuplicateX = posCaveX + API.Instance.Cave.BeamerResolutionWidth;
+                float posCaveDuplicateY = -(posCaveY - _mouseCursorDuplicate.sizeDelta.y);
+
+                //Debug.Log("posCaveDuplicateX: " + posCaveX);
+                //Debug.Log("posCaveDuplicateY: " + posCaveY);
+
+                //System.Windows.Forms.Cursor.Position = new Point(Convert.ToInt32(posCaveX), Convert.ToInt32(posCaveY));
+
+                // Set Position Duplicate
+                Vector2 v2 = new Vector2(posCaveDuplicateX, posCaveDuplicateY);
+                _mouseCursorDuplicate.anchoredPosition = v2;
+
+                
             }
 
-            _main.ToggleColliders(false);
+            API.Instance.Cave.ToggleColliders(false);
         }
 
         //private void OnDisable()
