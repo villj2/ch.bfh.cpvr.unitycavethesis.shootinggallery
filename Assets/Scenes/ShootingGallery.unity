@@ -11306,6 +11306,18 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 5a4cefbc65bd2784c8b120dfe8b3d2aa,
         type: 3}
+    - target: {fileID: 22330636, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: EyesSettings.RotationMovementConstraints.useOneEuroSmoothing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: EyesSettings.RotationAxisConstraints.Roll
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
   m_IsPrefabParent: 0

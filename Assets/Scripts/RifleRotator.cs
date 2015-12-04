@@ -20,7 +20,6 @@ public class RifleRotator : MonoBehaviour {
         var rotFromPlugin = API.Instance.AngleWandEyes;
 
         // Rotate RotatorEyes
-        //transform.parent.parent.localRotation = API.Instance.Cave.Eyes.transform.rotation;
         transform.parent.parent.localRotation = API.Instance.Eyes.transform.rotation;
 
         // Rotate RotatorWand
