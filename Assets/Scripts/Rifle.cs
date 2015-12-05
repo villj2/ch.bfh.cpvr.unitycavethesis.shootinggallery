@@ -27,7 +27,7 @@ public class Rifle : MonoBehaviour {
 	
 	void Update () {
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
             StartCoroutine(Shoot());
         }
