@@ -3,6 +3,7 @@ using System.Collections;
 using Cave;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Cave
 {
@@ -14,6 +15,7 @@ namespace Cave
         public struct CameraInfo
         {
             public Camera cam;
+            public Camera camGUI;
             public Vector3 offset;
         }
 
@@ -53,8 +55,7 @@ namespace Cave
 #endregion
 
 #region "private vars"
-
-        private List<Camera> _cameras;
+        
         private Dictionary<int, ViewInfo> _viewInfo;
 
         private Camera _cameraLeftLeft = null;
@@ -68,18 +69,94 @@ namespace Cave
 
         private Camera _cameraWithCursor;
 
-
+        private List<Canvas> _rootCanvas;
         
 #endregion
         
         void Awake()
         {
-            //_main = GameObject.Find("Cave").GetComponent<CaveMain>();
-
             transform.parent = API.Instance.Cave.gameObject.transform;
         }
 
         void Start()
+        {
+            // Disable UI Layer for Maincamera, leave others as-is
+            int layerUI = LayerMask.NameToLayer("UI");
+            Camera.main.cullingMask = ~(1 << layerUI);
+            
+            FetchCameras();
+            CreateSettings();
+            AdjustCameras();
+            PlaceUIElements();
+        }
+
+        void Update()
+        {
+            if (API.Instance.Cave == null) return;
+
+            int camIndexX, camIndexY;
+            camIndexX = camIndexY = 0;
+
+
+#if UNITY_EDITOR
+            int divisorX = 2;
+            int divisorY = 2;
+            if (API.Instance.Cave.CAVEMode == CAVEMode.FourScreenStereo) { divisorX = 4; }
+
+            camIndexX = Convert.ToInt32(Mathf.Floor(Convert.ToInt32(Input.mousePosition.x) / Convert.ToInt32(API.GetMainGameViewSize()[0] / divisorX)));
+            camIndexY = Convert.ToInt32(Mathf.Floor(Convert.ToInt32(Input.mousePosition.y) / Convert.ToInt32(API.GetMainGameViewSize()[1] / divisorY)));
+            
+#else
+            camIndexX = Math.Max(Convert.ToInt32(Mathf.Floor(Convert.ToInt32(Input.mousePosition.x) / API.Instance.Cave.BeamerResolutionWidth)), 0);
+            camIndexY = Math.Max(Convert.ToInt32(Mathf.Floor(Convert.ToInt32(Input.mousePosition.y) / API.Instance.Cave.BeamerResolutionHeight)), 0);
+#endif
+
+            // Get Camera based on cursor position
+            switch ((camIndexX*10)+camIndexY)
+            {
+                case 0:
+                    _cameraWithCursor = _viewInfo[2].Left.cam;
+                    break;
+                case 1:
+                    _cameraWithCursor = _viewInfo[0].Left.cam;
+                    break;
+                case 10:
+                    if(API.Instance.Cave.CAVEMode == CAVEMode.FourScreen) { _cameraWithCursor = _viewInfo[3].Left.cam; }
+                    else { _cameraWithCursor = _viewInfo[2].Right.cam; }
+                    break;
+                case 11:
+                    if (API.Instance.Cave.CAVEMode == CAVEMode.FourScreen) { _cameraWithCursor = _viewInfo[1].Left.cam; }
+                    else { _cameraWithCursor = _viewInfo[0].Right.cam; }
+                    break;
+                case 20:
+                     _cameraWithCursor = _viewInfo[3].Left.cam; 
+                    break;
+                case 21:
+                    _cameraWithCursor = _viewInfo[1].Left.cam;
+                    break;
+                case 30:
+                    _cameraWithCursor = _viewInfo[3].Right.cam;
+                    break;
+                case 31:
+                    _cameraWithCursor = _viewInfo[1].Right.cam;
+                    break;
+            }
+
+            //Debug.Log(string.Format("window pos x:{0}, window pos y:{1}, window w:{2}, window h:{3}, mouse x:{4}, mouse y:{5} , {6} {7} {8}",
+            //API.GetEditorWindow().position.x,
+            //API.GetEditorWindow().position.y,
+            //API.GetMainGameViewSize()[0],
+            //API.GetMainGameViewSize()[1],
+            //Input.mousePosition.x,
+            //Input.mousePosition.y, camIndexX, camIndexY, _cameraWithCursor.name
+            //));
+
+
+            // Rotate CAVE according to Maincamera
+            API.Instance.Cave.transform.rotation = Camera.main.transform.rotation;
+        }
+        
+        private void FetchCameras()
         {
             _cameraLeftLeft = GameObject.Find("CameraLeftLeft").GetComponent<Camera>();
             _cameraFrontLeft = GameObject.Find("CameraFrontLeft").GetComponent<Camera>();
@@ -89,8 +166,10 @@ namespace Cave
             _cameraFrontRight = GameObject.Find("CameraFrontRight").GetComponent<Camera>();
             _cameraRightRight = GameObject.Find("CameraRightRight").GetComponent<Camera>();
             _cameraBottomRight = GameObject.Find("CameraBottomRight").GetComponent<Camera>();
+        }
 
-
+        private void CreateSettings()
+        {
             _viewInfo = new Dictionary<int, ViewInfo>();
 
             // Add Settings Left
@@ -99,11 +178,13 @@ namespace Cave
                 Left = new CameraInfo
                 {
                     cam = _cameraLeftLeft,
+                    camGUI = API.Instance.Cave.GUILocation == BasicSettings.Sides.Left ? Instantiate(_cameraLeftLeft) : null,
                     offset = new Vector3(0f, 0f, -(API.Instance.Cave.EyeDistance / 2))
                 },
                 Right = new CameraInfo
                 {
                     cam = _cameraLeftRight,
+                    camGUI = API.Instance.Cave.GUILocation == BasicSettings.Sides.Left ? Instantiate(_cameraLeftRight) : null,
                     offset = new Vector3(0f, 0f, +(API.Instance.Cave.EyeDistance / 2))
                 },
                 CAVESide = new CAVEPlanesettings
@@ -118,11 +199,11 @@ namespace Cave
                     up = new Vector3(0, 1, 0),
                     corners = new corners
                     {
-                        topleft = new Vector3(5f, 0f,5f),
+                        topleft = new Vector3(5f, 0f, 5f),
                         bottomleft = new Vector3(-5f, 0f, 5f),
                         bottomright = new Vector3(-5f, 0f, -5f)
                     }
-        }
+                }
             });
 
             // Add Settings Front
@@ -131,11 +212,13 @@ namespace Cave
                 Left = new CameraInfo
                 {
                     cam = _cameraFrontLeft,
+                    camGUI = API.Instance.Cave.GUILocation == BasicSettings.Sides.Front ? Instantiate(_cameraFrontLeft) : null,
                     offset = new Vector3(-(API.Instance.Cave.EyeDistance / 2), 0f, 0f)
                 },
                 Right = new CameraInfo
                 {
                     cam = _cameraFrontRight,
+                    camGUI = API.Instance.Cave.GUILocation == BasicSettings.Sides.Front ? Instantiate(_cameraFrontRight) : null,
                     offset = new Vector3(+(API.Instance.Cave.EyeDistance / 2), 0f, 0f)
                 },
                 CAVESide = new CAVEPlanesettings
@@ -150,7 +233,7 @@ namespace Cave
                     up = new Vector3(0, 1, 0),
                     corners = new corners
                     {
-                        topleft = new Vector3(5f, 0f,5f),
+                        topleft = new Vector3(5f, 0f, 5f),
                         bottomleft = new Vector3(-5f, 0f, 5f),
                         bottomright = new Vector3(-5f, 0f, -5f)
                     }
@@ -163,11 +246,13 @@ namespace Cave
                 Left = new CameraInfo
                 {
                     cam = _cameraRightLeft,
-                    offset = new Vector3(0f,0f,+(API.Instance.Cave.EyeDistance / 2))
+                    camGUI = API.Instance.Cave.GUILocation == BasicSettings.Sides.Right ? Instantiate(_cameraRightLeft) : null,
+                    offset = new Vector3(0f, 0f, +(API.Instance.Cave.EyeDistance / 2))
                 },
                 Right = new CameraInfo
                 {
                     cam = _cameraRightRight,
+                    camGUI = API.Instance.Cave.GUILocation == BasicSettings.Sides.Right ? Instantiate(_cameraRightRight) : null,
                     offset = new Vector3(0f, 0f, -(API.Instance.Cave.EyeDistance / 2))
                 },
                 CAVESide = new CAVEPlanesettings
@@ -182,7 +267,7 @@ namespace Cave
                     up = new Vector3(0, 1, 0),
                     corners = new corners
                     {
-                        topleft = new Vector3(5f, 0f,5f),
+                        topleft = new Vector3(5f, 0f, 5f),
                         bottomleft = new Vector3(-5f, 0f, 5f),
                         bottomright = new Vector3(-5f, 0f, -5f)
                     }
@@ -196,11 +281,13 @@ namespace Cave
                 Left = new CameraInfo
                 {
                     cam = _cameraBottomLeft,
+                    camGUI = API.Instance.Cave.GUILocation == BasicSettings.Sides.Bottom ? Instantiate(_cameraBottomLeft) : null,
                     offset = new Vector3(-(API.Instance.Cave.EyeDistance / 2), 0f, 0f)
                 },
                 Right = new CameraInfo
                 {
                     cam = _cameraBottomRight,
+                    camGUI = API.Instance.Cave.GUILocation == BasicSettings.Sides.Bottom ? Instantiate(_cameraBottomRight) : null,
                     offset = new Vector3(+(API.Instance.Cave.EyeDistance / 2), 0f, 0f)
                 },
                 CAVESide = new CAVEPlanesettings
@@ -215,13 +302,16 @@ namespace Cave
                     up = new Vector3(1, 0, 0),
                     corners = new corners
                     {
-                        topleft = new Vector3(5f, 0f,5f),
+                        topleft = new Vector3(5f, 0f, 5f),
                         bottomleft = new Vector3(-5f, 0f, 5f),
                         bottomright = new Vector3(-5f, 0f, -5f)
                     }
                 }
             });
-
+        }
+        
+        private void AdjustCameras()
+        {
             // copy settings from main camera
             foreach (var vi in _viewInfo.Values)
             {
@@ -237,15 +327,10 @@ namespace Cave
                 vi.Right.cam.depth = 1;
                 vi.Right.cam.fieldOfView = 90;
 
-
                 vi.Left.cam.transform.localPosition = vi.Left.offset;
                 vi.Right.cam.transform.localPosition = vi.Right.offset;
             }
 
-
-
-            // deactivate default main camera
-            //Camera.main.enabled = false;
             Camera.main.depth = -1;
 
             _cameraLeftLeft.transform.Rotate(new Vector3(0f, 270f, 0f));
@@ -256,8 +341,6 @@ namespace Cave
 
             _cameraBottomLeft.transform.Rotate(new Vector3(90f, 0f, 0f));
             _cameraBottomRight.transform.Rotate(new Vector3(90f, 0f, 0f));
-
-
 
             //_cameraLeftLeft.transform.localPosition = new Vector3(-(_main.EyeDistance / 2), 0f, 0f);
             //_cameraLeftRight.transform.position.Set(_main.EyeDistance / 2, 0f, 0f);
@@ -304,72 +387,92 @@ namespace Cave
             };
         }
 
-        void Update()
+        public void PlaceUIElements()
         {
-            if (API.Instance.Cave == null) return;
+            Transform caveSide;
+            Vector2 rot = Vector2.zero;
 
-            int camIndexX, camIndexY;
-            camIndexX = camIndexY = 0;
+            int settingsIndex = 0;
 
-
-#if UNITY_EDITOR
-            int divisorX = 2;
-            int divisorY = 2;
-            if (API.Instance.Cave.CAVEMode == CAVEMode.FourScreenStereo) { divisorX = 4; }
-
-            camIndexX = Convert.ToInt32(Mathf.Floor(Convert.ToInt32(Input.mousePosition.x) / Convert.ToInt32(API.GetMainGameViewSize()[0] / divisorX)));
-            camIndexY = Convert.ToInt32(Mathf.Floor(Convert.ToInt32(Input.mousePosition.y) / Convert.ToInt32(API.GetMainGameViewSize()[1] / divisorY)));
-            
-#else
-            camIndexX = Math.Max(Convert.ToInt32(Mathf.Floor(Convert.ToInt32(Input.mousePosition.x) / API.Instance.Cave.BeamerResolutionWidth)), 0);
-            camIndexY = Math.Max(Convert.ToInt32(Mathf.Floor(Convert.ToInt32(Input.mousePosition.y) / API.Instance.Cave.BeamerResolutionHeight)), 0);
-#endif
-
-            // Get Camera based on cursor position
-            
- 
-            switch ((camIndexX*10)+camIndexY)
+            switch (API.Instance.Cave.GUILocation)
             {
-                case 0:
-                    _cameraWithCursor = _viewInfo[2].Left.cam;
+                case BasicSettings.Sides.Left:
+                    caveSide = API.Instance.Cave.CAVELeftXXL;
+                    rot.x = 0f;
+                    rot.y = 270f;
                     break;
-                case 1:
-                    _cameraWithCursor = _viewInfo[0].Left.cam;
+
+                case BasicSettings.Sides.Right:
+                    caveSide = API.Instance.Cave.CAVERightXXL;
+                    rot.x = 0f;
+                    rot.y = 90;
+                    settingsIndex = 2;
                     break;
-                case 10:
-                    if(API.Instance.Cave.CAVEMode == CAVEMode.FourScreen) { _cameraWithCursor = _viewInfo[3].Left.cam; }
-                    else { _cameraWithCursor = _viewInfo[2].Right.cam; }
+
+                case BasicSettings.Sides.Bottom:
+                    caveSide = API.Instance.Cave.CAVEBottomXXL;
+                    rot.x = 90f;
+                    rot.y = 0f;
+                    settingsIndex = 3;
                     break;
-                case 11:
-                    if (API.Instance.Cave.CAVEMode == CAVEMode.FourScreen) { _cameraWithCursor = _viewInfo[1].Left.cam; }
-                    else { _cameraWithCursor = _viewInfo[0].Right.cam; }
-                    break;
-                case 20:
-                     _cameraWithCursor = _viewInfo[3].Left.cam; 
-                    break;
-                case 21:
-                    _cameraWithCursor = _viewInfo[1].Left.cam;
-                    break;
-                case 30:
-                    _cameraWithCursor = _viewInfo[3].Right.cam;
-                    break;
-                case 31:
-                    _cameraWithCursor = _viewInfo[1].Right.cam;
+
+                default:
+                    caveSide = API.Instance.Cave.CAVEFrontXXL;
+                    settingsIndex = 1;
                     break;
             }
 
-            //Debug.Log(string.Format("window pos x:{0}, window pos y:{1}, window w:{2}, window h:{3}, mouse x:{4}, mouse y:{5} , {6} {7} {8}",
-            //API.GetEditorWindow().position.x,
-            //API.GetEditorWindow().position.y,
-            //API.GetMainGameViewSize()[0],
-            //API.GetMainGameViewSize()[1],
-            //Input.mousePosition.x,
-            //Input.mousePosition.y, camIndexX, camIndexY, _cameraWithCursor.name
-            //));
+            // Configure GUI Cameras
+            ConfigureCamGUI(FullViewInfo[settingsIndex].Left.camGUI, FullViewInfo[settingsIndex].Left.cam);
+            ConfigureCamGUI(FullViewInfo[settingsIndex].Right.camGUI, FullViewInfo[settingsIndex].Right.cam, false);
 
+            // Procedure to adapt Canvas
+            // 1) Get all Canvas elements
+            // 2) Check if root canvas (isRootCanvas)
+            // 3) save all root canvas in list
+            // 4) modify
+            _rootCanvas = Resources.FindObjectsOfTypeAll<Canvas>().Where(x => x.isRootCanvas).ToList();
 
-            // Rotate CAVE according to Maincamera
-            API.Instance.Cave.transform.rotation = Camera.main.transform.rotation;
+            foreach(var c in _rootCanvas)
+            {
+                var canvasRectTransform = c.GetComponent<RectTransform>();
+
+                c.renderMode = RenderMode.WorldSpace;
+                canvasRectTransform.sizeDelta = new Vector2(caveSide.transform.localScale.z * 1000f, caveSide.transform.localScale.x * 1000f);
+                canvasRectTransform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                if (c.name != "CanvasMouseCursorDuplicate") canvasRectTransform.SetParent(API.Instance.Cave.transform);
+                //canvasRectTransform.transform.parent = API.Instance.Cave.transform;
+                canvasRectTransform.localPosition = caveSide.transform.localPosition;
+                canvasRectTransform.eulerAngles = new Vector3(rot.x, rot.y, 0f);
+            }
+        }
+
+        private void ConfigureCamGUI(Camera camGUI, Camera cam, bool isEyeLeft = true)
+        {
+            camGUI.CopyFrom(cam);
+            camGUI.cullingMask = LayerMask.GetMask("UI");
+
+            camGUI.name = isEyeLeft ? "CameraGUILeft" : "CameraGUIRight";
+            camGUI.clearFlags = CameraClearFlags.Depth;
+            camGUI.transform.SetParent(cam.transform.parent);
+            camGUI.depth = 2;
+        }
+
+        List<GameObject> GetAllUIElements()
+        {
+            int layerUI = LayerMask.NameToLayer("UI");
+            List<GameObject> uiElements = new List<GameObject>();
+            GameObject[] allElements = FindObjectsOfType<GameObject>();
+
+            foreach (var go in allElements)
+            {
+                if (go.layer == layerUI)
+                {
+                    uiElements.Add(go);
+                }
+            }
+
+            return uiElements;
         }
     }
 }
