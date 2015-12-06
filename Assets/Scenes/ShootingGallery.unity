@@ -11225,6 +11225,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: SecondaryCameraSettings.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11259,11 +11263,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
       propertyPath: EyesSettings.TrackPosition
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
       propertyPath: EyesSettings.TrackRotation
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
       propertyPath: WandSettings.TrackPosition
@@ -11317,6 +11321,66 @@ Prefab:
     - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
       propertyPath: EyesSettings.RotationAxisConstraints.Roll
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: SecondaryCameraSettings.Array.data[0].Side
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: SystemSettings.ShowCave
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: WandSettings.Cursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 73fba639fef3d374fa2bec96f635e747, type: 3}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_Pivot.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}

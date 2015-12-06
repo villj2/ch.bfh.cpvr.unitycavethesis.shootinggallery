@@ -2,14 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Text;
+using System.Windows.Forms;
+using UnityEngine.UI;
 
 namespace Cave
 {
     #region "enum"
-    public enum CAVEMode
-    {
-        FourScreen, FourScreenStereo
-    };
 
     public enum FrustumMode
     {
@@ -31,7 +30,6 @@ namespace Cave
         public int BeamerResolutionWidth = 1280;
         public int BeamerResolutionHeight = 960;
         public string Host = "192.168.0.201";
-        public CAVEMode CAVEMode = CAVEMode.FourScreenStereo;
         public FrustumMode FrustumMode = FrustumMode.CAVEXXL;
         public BasicSettings.Sides GUILocation = BasicSettings.Sides.Front;
         public float EyeDistance = 0.07f;
@@ -48,6 +46,12 @@ namespace Cave
 
         [Header("Gamepad")]
         public GamepadSettings GamepadSettings;
+
+        [Header("Secondary Cameras")]
+        public SecondaryCameraSettings[] SecondaryCameraSettings;
+
+        [Header("System")]
+        public SystemSettings SystemSettings;
         #endregion
 
         #region "public properties"
@@ -68,11 +72,6 @@ namespace Cave
         //public FrustumManager FrustumManager { get { return _frustumManager; } }
         //public GameObject CameraContainer { get { return _cameraContainer; } }
 
-        [Header("System")]
-        public CameraManager CameraManagerPrefab;
-        public FrustumManager FrustumManagerPrefab;
-        public GameObject CameraContainerPrefab;
-        public bool ShowCave = false;
 
         //public Vector3 currentTrackedObject { get { return _TrackedObject; } }
 
@@ -106,9 +105,9 @@ namespace Cave
 
         void Awake()
         {
-            Instantiate(CameraManagerPrefab);
-            Instantiate(FrustumManagerPrefab);
-            Instantiate(CameraContainerPrefab);
+            Instantiate(SystemSettings.CameraManagerPrefab);
+            Instantiate(SystemSettings.FrustumManagerPrefab);
+            Instantiate(SystemSettings.CameraContainerPrefab);
         }
 
         // Use this for initialization
@@ -129,7 +128,7 @@ namespace Cave
             _wallsXXL.Add(_CAVERightXXL = GameObject.FindWithTag("CaveRightXXL").GetComponent<Transform>());
             _wallsXXL.Add(_CAVEBottomXXL = GameObject.FindWithTag("CaveBottomXXL").GetComponent<Transform>());
 
-            if (!ShowCave)
+            if (!SystemSettings.ShowCave)
             {
                 foreach (var w in _walls)
                 {
@@ -149,7 +148,7 @@ namespace Cave
             //_frustumManager = GameObject.FindWithTag("FrustumManager").GetComponent<FrustumManager>();
             //_cameraContainer = GameObject.FindWithTag("CameraContainer");
 
-            if (CAVEMode == CAVEMode.FourScreen) EyeDistance = 0f;
+            //if (CAVEMode == CAVEMode.FourScreen) EyeDistance = 0f;
 
             ToggleColliders(false);
 
@@ -166,11 +165,6 @@ namespace Cave
         {
             transform.position = Camera.main.transform.position;
             transform.rotation = Camera.main.transform.rotation;
-        }
-
-        private void SetCameraTag()
-        {
-
         }
 
         public void ToggleColliders(bool status)

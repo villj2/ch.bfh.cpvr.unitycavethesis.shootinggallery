@@ -10,7 +10,7 @@ public class Main : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        //Vector2 crosshairPos = new Vector2 (65f, 65f);
-        //Cursor.SetCursor (Crosshair, crosshairPos, CursorMode.Auto);
+        Vector2 crosshairPos = new Vector2 (65f, 65f);
+        Cursor.SetCursor (Crosshair, crosshairPos, CursorMode.Auto);
     }
  }
