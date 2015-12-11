@@ -12,7 +12,7 @@ namespace Cave
 
     public enum FrustumMode
     {
-        CAVEXXL, OffAxis
+        CAVEXXL, GPP_Kooima
     };
 
     public enum TrackedObject
@@ -28,7 +28,7 @@ namespace Cave
 
         [Header("Main")]
         public int BeamerResolutionWidth = 1280;
-        public int BeamerResolutionHeight = 960;
+        public int BeamerResolutionHeight = 1024;
         public string Host = "192.168.0.201";
         public FrustumMode FrustumMode = FrustumMode.CAVEXXL;
         public BasicSettings.Sides GUILocation = BasicSettings.Sides.Front;

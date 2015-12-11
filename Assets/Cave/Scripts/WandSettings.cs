@@ -30,7 +30,7 @@ namespace Cave
         public int Port = 8945;
 
         [Header("Custom Mouse Cursor")]
-        [Tooltip("Add custom MouseCursor (Texture2D) here. Make sure Texture Type is \"Cursor\"")]
+        [Tooltip("Add custom MouseCursor (Texture2D) here. Make sure Texture Type is \"Cursor\".")]
         public Texture2D Cursor;
     }
 
@@ -96,7 +96,8 @@ namespace Cave
         Up = WindowsInput.VirtualKeyCode.UP,
         Down = WindowsInput.VirtualKeyCode.DOWN,
         Add = WindowsInput.VirtualKeyCode.ADD,
-        Subtract = WindowsInput.VirtualKeyCode.SUBTRACT
+        Subtract = WindowsInput.VirtualKeyCode.SUBTRACT,
+        MouseLeft = 333
     }
 
     //[CustomPropertyDrawer(typeof(WandSettings))]

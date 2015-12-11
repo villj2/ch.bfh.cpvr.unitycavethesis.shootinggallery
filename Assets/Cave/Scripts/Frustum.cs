@@ -1,59 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class Frustum : MonoBehaviour {
+public class Frustum : MonoBehaviour
+{
 
     #region "Functions"
 
-    //public static void setFrustum(ref Camera cam, double left, double right, double bottom, double top)
-    //{
-
-
-    //    Matrix4x4 m = calcFrustum(left, right, bottom, top, cam.nearClipPlane, cam.farClipPlane);
-    //    //Matrix4x4 m2 = PerspectiveOffCenter((float)left, (float)right, (float)bottom, (float)top, cam.nearClipPlane, cam.farClipPlane);
-
-
-    //    // Debug.Log(string.Format("{0} {1} {2} {3} {4} {5} {6}",cam.name,left,right,top,cam.nearClipPlane,cam.farClipPlane));
-    //    cam.projectionMatrix = m;
-    //}
-
-    //public static void setFrustum(ref Cave.CameraManager.ViewInfo vi, double left, double right, double bottom, double top)
-    //{
-
-    //    Vector3 newposLeft = vi.Left.cam.transform.position;
-    //    Vector3 newposRight = vi.Right.cam.transform.position;
-
-
-    //    float balancePointLeft = 1;
-    //    float balancePointRight = 1;
-
-    //    balancePointLeft = Mathf.Clamp(newposLeft.y, 0.001f, 2000f);
-    //    balancePointRight = Mathf.Clamp(newposRight.y, 0.001f, 2000f);
-
-    //    // Ratio for intercept theorem
-    //    float ratioLeft = balancePointLeft / vi.Left.cam.nearClipPlane;
-    //    float ratioRight = balancePointRight / vi.Right.cam.nearClipPlane;
-
-    //    // Compute size for focal
-    //    Vector4 vecfocalLeft = new Vector4((-vi.CAVESide.width / 2.0f) - newposLeft.x,
-    //                                        (vi.CAVESide.width / 2.0f) - newposLeft.x,
-    //                                        (vi.CAVESide.height / 2.0f) - newposLeft.y,
-    //                                        (-vi.CAVESide.height / 2.0f) - newposLeft.y);
-    //    Vector4 vecfocalRight = new Vector4((-vi.CAVESide.width / 2.0f) - newposRight.x,
-    //                                        (vi.CAVESide.width / 2.0f) - newposRight.x,
-    //                                        (vi.CAVESide.height / 2.0f) - newposRight.y,
-    //                                        (-vi.CAVESide.height / 2.0f) - newposRight.y);
-
-    //    Vector4 nearLeft = new Vector4(vecfocalLeft.x / ratioLeft, vecfocalLeft.y / ratioLeft, vecfocalLeft.z / ratioLeft, vecfocalLeft.w / ratioLeft);
-    //    Vector4 nearRight = new Vector4(vecfocalRight.x / ratioRight, vecfocalRight.y / ratioRight, vecfocalRight.z / ratioRight, vecfocalRight.w / ratioRight);
-
-
-
-
-    //    setFrustum(ref vi.Left.cam, nearLeft.x, nearLeft.y, nearLeft.z, nearLeft.w);
-    //    setFrustum(ref vi.Right.cam, nearRight.x, nearRight.y, nearRight.z, nearRight.w);
-
-    //}
 
     // frei nach http://www.songho.ca/opengl/gl_projectionmatrix.html
     public static Matrix4x4 calcFrustum(double left, double right, double bottom, double top, double near, double far)
@@ -78,38 +31,6 @@ public class Frustum : MonoBehaviour {
 
         return m;
 
-        //Matrix4x4 m = new Matrix4x4();
-        //float m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44;
-        //m11 = m12 = m13 = m14 = m21 = m22 = m23 = m24 = m31 = m32 = m33 = m34 = m41 = m42 = m43 = m44 = 0f;
-
-        //m34 = -1f;
-        //m11 = 2 * near / (right - left);
-        //m22 = 2 * near / (top - bottom);
-
-        //m31 = (right + left) / (right - left);
-        //m32 = (top + bottom) / (top - bottom);
-        //m33 = -(far + near) / (far - near);
-        //m43 = -2 * near * far / (far - near);
-
-        //m[0, 0] = m11;
-        //m[0, 1] = m12;
-        //m[0, 2] = m13;
-        //m[0, 3] = m14;
-        //m[1, 0] = m21;
-        //m[1, 1] = m22;
-        //m[1, 2] = m23;
-        //m[1, 3] = m24;
-        //m[2, 0] = m31;
-        //m[2, 1] = m32;
-        //m[2, 2] = m33;
-        //m[2, 3] = m34;
-        //m[3, 0] = m41;
-        //m[3, 1] = m42;
-        //m[3, 2] = m43;
-        //m[3, 3] = m44;
-
-
-        //return m;
 
     }
 
@@ -195,6 +116,40 @@ public class Frustum : MonoBehaviour {
 
     }
 
+    public static void GPM(ref Camera c)
+    {
+        if (c.transform.position.z - 1.27f < 0) return;
+
+        Matrix4x4 m = new Matrix4x4();
+        // line one
+        m[0, 0] = 1f;
+        m[0, 1] = 0f;
+        m[0, 2] = 0f;
+        m[0, 3] = 0f;
+
+        //line two
+        m[1, 0] = 0f;
+        m[1, 1] = 1f;
+        m[1, 2] = 0f;
+        m[1, 3] = 0f;
+
+        //line 3
+        m[2, 0] = -(c.transform.position.x / (c.transform.position.z - 1.27f));
+        m[2, 1] = -(c.transform.position.y / (c.transform.position.z - 1.27f));
+        m[2, 2] = 1f;
+        m[2, 3] = -(1f / (c.transform.position.z - 1.27f));
+
+        // line 4
+        m[3, 0] = ((c.transform.position.x * 1.27f) / (c.transform.position.z - 1.27f));
+        m[3, 1] = ((c.transform.position.y * 1.27f) / (c.transform.position.z - 1.27f));
+        m[3, 2] = 0f;
+        m[3, 3] = ((c.transform.position.y) / (c.transform.position.z - 1.27f));
+
+        c.projectionMatrix = m;
+        //c.worldToCameraMatrix = Matrix4x4.identity;
+
+    }
+
     //static Matrix4x4 getWorldToCameraMatrix(ref Camera c, Vector3 bottomLeft, Vector3 bottomRight, Vector3 topLeft, Vector3 headTrackerLocation, float near, float far)
     //{
     //    //Fill in the transform matrix
@@ -272,7 +227,8 @@ public class Frustum : MonoBehaviour {
 
 
 
-    public static void OffAxisProjection(ref Camera c , Vector3 bottomLeft, Vector3 bottomRight, Vector3 topLeft, Vector3 headTrackerLocation, float near, float far) {
+    public static void GPP_Kooima(ref Camera c, Vector3 bottomLeft, Vector3 bottomRight, Vector3 topLeft, Vector3 headTrackerLocation, float near, float far, Vector3 up)
+    {
         // This script should be attached to a Camera object 
         // in Unity. Once a Plane object is specified as the 
         // "projectionScreen", the script computes a suitable
@@ -281,7 +237,9 @@ public class Frustum : MonoBehaviour {
         // "Generalized Perspective Projection," 2009, 
         // http://csc.lsu.edu/~kooima/pdfs/gen-perspective.pdf 
 
-
+        //c.ResetAspect();
+        //c.ResetProjectionMatrix();
+        //c.ResetWorldToCameraMatrix();
 
         Vector3 pa = bottomLeft;
         // lower left corner in world coordinates
@@ -391,42 +349,75 @@ public class Frustum : MonoBehaviour {
         tm[3, 2] = 0.0f;
         tm[3, 3] = 1.0f;
 
-        // set matrices
-        c.projectionMatrix = p * rm * tm;
-        c.worldToCameraMatrix = Matrix4x4.identity;
-        // we put everything into the projection matrix: 
-        // because our "viewing matrix" might look at a  
-        // point that is off the screen.
+        c.projectionMatrix = p;
 
-        if (true)
+        c.worldToCameraMatrix = rm * tm;
+
+        // Matrix4x4.TRS()
+        // The original paper puts everything into the projection 
+        // matrix (i.e. sets it to p * rm * tm and the other 
+        // matrix to the identity), but this doesn't appear to 
+        // work with Unity's shadow maps.
+
+        Quaternion q = new Quaternion();
+        //look at the center of the screen
+        q.SetLookRotation((0.5f * (pb + pc) - pe), Vector3.up);
+        //apply rotation
+        c.transform.rotation = q;
+
+        //set fieldOfview to a conservative estimate
+        if (c.aspect >= 1.0f)
         {
-            // rotate camera to screen for culling to work
-            Quaternion q = new Quaternion();
-            q.SetLookRotation((0.5f * (pb + pc) - pe), vu);
-            // look at center of screen
-            c.transform.rotation = q;
-
-            // set fieldOfView to a conservative estimate 
-            // to make frustum tall enough
-            if (c.aspect >= 1.0f)
-            {
-                c.fieldOfView = Mathf.Rad2Deg *
-                    Mathf.Atan(((pb - pa).magnitude + (pc - pa).magnitude)
-                    / va.magnitude);
-            }
-            else
-            {
-                // take the camera aspect into account to 
-                // make the frustum wide enough 
-                c.fieldOfView =
-                    Mathf.Rad2Deg / c.aspect *
-                    Mathf.Atan(((pb - pa).magnitude + (pc - pa).magnitude)
-                    / va.magnitude);
-            }
+            c.fieldOfView = Mathf.Rad2Deg * Mathf.Atan(((pb - pa).magnitude + (pc - pa).magnitude) / va.magnitude);
         }
+        else
+        {
+            // take the camera aspect into account to make the frustum wide enough
+            c.fieldOfView = Mathf.Rad2Deg / c.aspect * Mathf.Atan(((pb - pa).magnitude + (pc - pa).magnitude) / va.magnitude);
+        }
+
     }
-    
-    
+
+
+    public static float GetHorizontalFOV(ref Camera c)
+    {
+        float vFOVrad = c.fieldOfView * Mathf.Deg2Rad;
+        float cameraHeightAt1 = Mathf.Tan(vFOVrad * 0.5f);
+        float hFOVrad = Mathf.Atan(cameraHeightAt1 * c.aspect) * 2;
+
+        return hFOVrad * Mathf.Rad2Deg;
+    }
+
+
+    public static void reReadValuesFromCam(ref Camera c)
+    {
+        Matrix4x4 mat = c.projectionMatrix;
+
+        float xa = mat[0];
+        float xb = mat[5];
+        float xc = mat[10];
+        float xd = mat[14];
+
+        float aspect_ratio = xb / xa;
+        // Debug.Log(c.aspect);
+
+        float k = (xc - 1.0f) / (xc + 1.0f);
+        float clip_min = (xd * (1.0f - k)) / (2.0f * k);
+        float clip_max = k * clip_min;
+
+        float RAD2DEG = 180.0f / 3.14159265358979323846f;
+        float fov = RAD2DEG * (2.0f * (float)Math.Atan(1.0f / xb));
+
+        Debug.Log(String.Format("Cam Values:    {0}, {1}", c.aspect, GetHorizontalFOV(ref c)));
+        Debug.Log(String.Format("recalc values: {0}, {1}, {2}, {3}, {4}", aspect_ratio, k, clip_min, clip_max, fov));
+
+        float currentFOVVertical = fov;
+        float currentFOVHorizontal = Mathf.Rad2Deg * 2 * Mathf.Atan(Mathf.Tan((currentFOVVertical * Mathf.Deg2Rad) / 2f) / aspect_ratio);
+        Debug.Log(string.Format("fov V: {0}, fov H: {1}", currentFOVHorizontal, currentFOVVertical));
+
+    }
+
+
     #endregion
 
 }

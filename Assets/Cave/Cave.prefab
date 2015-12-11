@@ -301,7 +301,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 192292}
-  m_LocalRotation: {x: 0, y: .680159569, z: 0, w: -.733064115}
+  m_LocalRotation: {x: .222573191, y: -.648051381, z: .206510365, w: .698458433}
   m_LocalPosition: {x: .689999998, y: .310000002, z: -.600000024}
   m_LocalScale: {x: .100000001, y: .100000001, z: .5}
   m_Children: []
@@ -1044,7 +1044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BeamerResolutionWidth: 1280
-  BeamerResolutionHeight: 960
+  BeamerResolutionHeight: 1024
   Host: 192.168.0.201
   FrustumMode: 0
   GUILocation: 1
@@ -1108,7 +1108,7 @@ MonoBehaviour:
     Channel: 0
   SecondaryCameraSettings:
   - Camera: {fileID: 0}
-    Side: 3
+    Side: 2
   SystemSettings:
     CameraManagerPrefab: {fileID: 11439038, guid: 54c3efade4d157f4483aa38b4f7073ec,
       type: 2}
@@ -1116,8 +1116,9 @@ MonoBehaviour:
       type: 2}
     CameraContainerPrefab: {fileID: 132108, guid: d60238788ebea804eb97f2b4fe276066,
       type: 2}
-    ShowCave: 0
+    ShowCave: 1
     SetMouseCursor: 1
+    ForceShowMouseCursor: 0
 --- !u!114 &11497658
 MonoBehaviour:
   m_ObjectHideFlags: 1
