@@ -32,7 +32,12 @@ public class UITime : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            _timePassed = 0f;
+            Reset();
         }
+    }
+
+    public void Reset()
+    {
+        _timePassed = 0f;
     }
 }

@@ -36,7 +36,7 @@ public class UIPoints : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            _points = 0;
+            Reset();
         }
     }
 
@@ -44,4 +44,9 @@ public class UIPoints : MonoBehaviour {
     void Update () {
 	
 	}
+
+    public void Reset()
+    {
+        _points = 0;
+    }
 }
