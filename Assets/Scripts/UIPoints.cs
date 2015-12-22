@@ -33,6 +33,11 @@ public class UIPoints : MonoBehaviour {
         _points += points;
 
         _text.text = "Punkte: " + _points.ToString();
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _points = 0;
+        }
     }
 
     // Update is called once per frame

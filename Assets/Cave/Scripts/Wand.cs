@@ -35,6 +35,8 @@ namespace Cave
         private bool _joystickPress;
         private bool _buttonBack;
 
+        private int _pressedKeycode;
+
         private RectTransform _caveCursorRect;
         private UnityEngine.UI.Image _caveCursorImage;
 
@@ -58,14 +60,14 @@ namespace Cave
         // Use this for initialization
         void Start()
         {
-            _usePositionSmoothing = API.Instance.Cave.WandSettings.PositionMovementConstraints.useOneEuroSmoothing;
-            _useRotationSmoothing = API.Instance.Cave.WandSettings.RotationMovementConstraints.useOneEuroSmoothing;
+            _usePositionSmoothing = API.Instance.Cave.WandSettings.PositionSmoothing.EnableOneEuroSmoothing;
+            _useRotationSmoothing = API.Instance.Cave.WandSettings.RotationSmoothing.EnableOneEuroSmoothing;
 
-            _rotJitterReduction = API.Instance.Cave.WandSettings.RotationMovementConstraints.jitterReduction;
-            _rotLagReduction = API.Instance.Cave.WandSettings.RotationMovementConstraints.lagReduction;
+            _rotJitterReduction = API.Instance.Cave.WandSettings.RotationSmoothing.jitterReduction;
+            _rotLagReduction = API.Instance.Cave.WandSettings.RotationSmoothing.lagReduction;
 
-            _posJitterReduction = API.Instance.Cave.WandSettings.PositionMovementConstraints.jitterReduction;
-            _posLagReduction = API.Instance.Cave.WandSettings.PositionMovementConstraints.lagReduction;
+            _posJitterReduction = API.Instance.Cave.WandSettings.PositionSmoothing.jitterReduction;
+            _posLagReduction = API.Instance.Cave.WandSettings.PositionSmoothing.lagReduction;
 
             _joystickPos = Vector2.zero;
 
@@ -105,8 +107,8 @@ namespace Cave
 
         private void SetCustomCursor()
         {
-            _caveCursorRect = GameObject.FindWithTag("CaveCursor").GetComponent<RectTransform>();
-            _caveCursorImage = GameObject.FindWithTag("CaveCursor").GetComponent< UnityEngine.UI.Image >();
+            _caveCursorRect = GameObject.Find("CaveCursor").GetComponent<RectTransform>();
+            _caveCursorImage = GameObject.Find("CaveCursor").GetComponent< UnityEngine.UI.Image >();
 
             if (API.Instance.Cave.WandSettings.Cursor != null)
             {
@@ -127,7 +129,7 @@ namespace Cave
             {
                 // Position
                 var posOri = transform.localPosition;
-                var pos = VRPN.vrpnTrackerPos(API.Instance.Cave.WandSettings.WorldVizObject + "@" + API.Instance.Cave.Host, API.Instance.Cave.WandSettings.Channel);
+                var pos = VRPN.vrpnTrackerPos(API.Instance.Cave.WandSettings.WorldVizObject + "@" + API.Instance.Cave.CaveSettings.Host, API.Instance.Cave.WandSettings.Channel);
 
                 //Debug.Log("Wand pos from VRPN: " + pos);
 
@@ -144,7 +146,6 @@ namespace Cave
                 if (API.Instance.Cave.WandSettings.PositionAxisConstraints.Y) pos.x = posOri.z;
                 if (API.Instance.Cave.WandSettings.PositionAxisConstraints.Z) pos.x = posOri.z;
 
-
                 transform.localPosition = pos;
             }
         }
@@ -153,7 +154,7 @@ namespace Cave
         {
             if (API.Instance.Cave.WandSettings.TrackRotation)
             {
-                var rot = VRPN.vrpnTrackerQuat(API.Instance.Cave.WandSettings.WorldVizObject + "@" + API.Instance.Cave.Host, API.Instance.Cave.WandSettings.Channel);
+                var rot = VRPN.vrpnTrackerQuat(API.Instance.Cave.WandSettings.WorldVizObject + "@" + API.Instance.Cave.CaveSettings.Host, API.Instance.Cave.WandSettings.Channel);
                 Vector3 rotOri = transform.rotation.eulerAngles;
 
                 if (_useRotationSmoothing)
@@ -163,6 +164,14 @@ namespace Cave
                     OneEuroFilter.ApplyOneEuroFilter(rot.eulerAngles, Vector3.zero, rotOri, Vector3.zero, ref filteredRot, ref filteredVelocity, _rotJitterReduction, _rotLagReduction);
                     rot.eulerAngles = filteredRot;
                 }
+
+                Vector3 eulerAnglesNew = rot.eulerAngles;
+                if (API.Instance.Cave.WandSettings.RotationAxisConstraints.Pitch) eulerAnglesNew.x = rotOri.x;
+                if (API.Instance.Cave.WandSettings.RotationAxisConstraints.Yaw) eulerAnglesNew.y = rotOri.y;
+                if (API.Instance.Cave.WandSettings.RotationAxisConstraints.Roll) eulerAnglesNew.z = rotOri.z;
+
+                rot.eulerAngles = eulerAnglesNew;
+
                 transform.rotation = rot;
             }
         }
@@ -173,8 +182,8 @@ namespace Cave
             //Debug.Log("Joystick Y: " + VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 1));
 
             Vector2 vCurr = new Vector2();
-            vCurr.x = (float)VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 0);
-            vCurr.y = (float)VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 1);
+            vCurr.x = (float)VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.CaveSettings.Host + ":" + API.Instance.Cave.WandSettings.Port, 0);
+            vCurr.y = (float)VRPN.vrpnAnalog(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.CaveSettings.Host + ":" + API.Instance.Cave.WandSettings.Port, 1);
 
             if (Mathf.Abs(vCurr.x) < 0.01f) vCurr.x = 0f;
             if (Mathf.Abs(vCurr.y) < 0.01f) vCurr.y = 0f;
@@ -202,29 +211,19 @@ namespace Cave
             // NOTE: Convert string to keycode: KeyCode thisKeyCode = (KeyCode) System.Enum.Parse(typeof(KeyCode), "Whatever") ;
             // http://inputsimulator.codeplex.com/SourceControl/latest#WindowsInput/Native/VirtualKeyCode.cs
             
-            _topLeft = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 1);
-            _topRight = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 2);
-            _bottomLeft = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 0);
-            _bottomRight = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 3);
-            _joystickPress = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 4);
-            _buttonBack = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 5);
+            _topLeft = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.CaveSettings.Host + ":" + API.Instance.Cave.WandSettings.Port, 1);
+            _topRight = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.CaveSettings.Host + ":" + API.Instance.Cave.WandSettings.Port, 2);
+            _bottomLeft = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.CaveSettings.Host + ":" + API.Instance.Cave.WandSettings.Port, 0);
+            _bottomRight = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.CaveSettings.Host + ":" + API.Instance.Cave.WandSettings.Port, 3);
+            _joystickPress = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.CaveSettings.Host + ":" + API.Instance.Cave.WandSettings.Port, 4);
+            _buttonBack = VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.CaveSettings.Host + ":" + API.Instance.Cave.WandSettings.Port, 5);
 
-            if (_topLeft) WindowsInput.InputSimulator.SimulateKeyPress((WindowsInput.VirtualKeyCode)API.Instance.Cave.WandSettings.ButtonMapping.TopLeft);
-            if (_topRight) WindowsInput.InputSimulator.SimulateKeyPress((WindowsInput.VirtualKeyCode)API.Instance.Cave.WandSettings.ButtonMapping.TopRight);
-            if (_bottomLeft) WindowsInput.InputSimulator.SimulateKeyPress((WindowsInput.VirtualKeyCode)API.Instance.Cave.WandSettings.ButtonMapping.BottomLeft);
-            if (_bottomRight) WindowsInput.InputSimulator.SimulateKeyPress((WindowsInput.VirtualKeyCode)API.Instance.Cave.WandSettings.ButtonMapping.BottomRight);
-            if (_joystickPress) WindowsInput.InputSimulator.SimulateKeyPress((WindowsInput.VirtualKeyCode)API.Instance.Cave.WandSettings.ButtonMapping.Joystick);
-            if (_buttonBack) {
-
-                if(API.Instance.Cave.WandSettings.ButtonMapping.Back == CaveInput.MouseLeft)
-                {
-                    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint)System.Windows.Forms.Cursor.Position.X, (uint)System.Windows.Forms.Cursor.Position.Y, 0, 0);
-                }
-                else
-                {
-                    WindowsInput.InputSimulator.SimulateKeyPress((WindowsInput.VirtualKeyCode)API.Instance.Cave.WandSettings.ButtonMapping.Back);
-                }
-            }
+            if (_topLeft) PressButton(API.Instance.Cave.WandSettings.ButtonMapping.TopLeft);
+            if (_topRight) PressButton(API.Instance.Cave.WandSettings.ButtonMapping.TopRight);
+            if (_bottomLeft) PressButton(API.Instance.Cave.WandSettings.ButtonMapping.BottomLeft);
+            if (_bottomRight) PressButton(API.Instance.Cave.WandSettings.ButtonMapping.BottomRight);
+            if (_joystickPress) PressButton(API.Instance.Cave.WandSettings.ButtonMapping.Joystick);
+            if (_buttonBack) PressButton(API.Instance.Cave.WandSettings.ButtonMapping.Back);
             
             //System.Windows.Forms.SendKeys.Send("a"); // Funzt nicht
 
@@ -247,6 +246,36 @@ namespace Cave
             //Debug.Log("Button Back: " + VRPN.vrpnButton(API.Instance.Cave.WandSettings.WorldVizObjectButtons + "@" + API.Instance.Cave.Host + ":" + API.Instance.Cave.WandSettings.Port, 5));
 
             //Debug.Log("------------------");
+        }
+
+        private void PressButton(CaveInput caveInput)
+        {
+            if (_pressedKeycode == (int)caveInput) return;
+
+            if (caveInput == CaveInput.MouseLeft)
+            {
+                mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint)System.Windows.Forms.Cursor.Position.X, (uint)System.Windows.Forms.Cursor.Position.Y, 0, 0);
+            }
+            else if(caveInput == CaveInput.MouseRight)
+            {
+                mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, (uint)System.Windows.Forms.Cursor.Position.X, (uint)System.Windows.Forms.Cursor.Position.Y, 0, 0);
+            }
+            else
+            {
+                WindowsInput.InputSimulator.SimulateKeyPress((WindowsInput.VirtualKeyCode)caveInput);
+            }
+
+            _pressedKeycode = (int)caveInput;
+
+            StopCoroutine(ClearPressedKey());
+            StartCoroutine(ClearPressedKey());
+        }
+
+        IEnumerator ClearPressedKey()
+        {
+            yield return new WaitForSeconds(1f);
+            
+            _pressedKeycode = -1;
         }
 
         private void SetCursor()
@@ -272,9 +301,10 @@ namespace Cave
             {
                 _caveHit = true;
 
-                //Debug.Log(String.Format("Wand Raycast hits: {0}", hit.collider.name));
+                //Debug.Log(String.Format("Wand Raycast hits: {0}", h.transform.name));
 
-                switch (h.transform.tag)
+                //switch (h.transform.tag)
+                switch (h.transform.name)
                 {
                     case "CaveLeft":
                         _multiplierX = 0;
@@ -312,16 +342,16 @@ namespace Cave
                 float localHitpointNoramlizedX = 1f - ((localSpaceHitPoint.z + 5f) / 10f);
                 float localHitpointNoramlizedY = 1f - ((localSpaceHitPoint.x + 5f) / 10f);
 
-                float posCaveSideX = localHitpointNoramlizedX * API.Instance.Cave.BeamerResolutionWidth;
-                float posCaveSideY = localHitpointNoramlizedY * API.Instance.Cave.BeamerResolutionHeight;
+                float posCaveSideX = localHitpointNoramlizedX * API.Instance.Cave.CaveSettings.BeamerResolutionWidth;
+                float posCaveSideY = localHitpointNoramlizedY * API.Instance.Cave.CaveSettings.BeamerResolutionHeight;
 
-                float posCaveX = posCaveSideX + _multiplierX * API.Instance.Cave.BeamerResolutionWidth;
-                float posCaveY = posCaveSideY + _multiplierY * API.Instance.Cave.BeamerResolutionHeight;
+                float posCaveX = posCaveSideX + _multiplierX * API.Instance.Cave.CaveSettings.BeamerResolutionWidth;
+                float posCaveY = posCaveSideY + _multiplierY * API.Instance.Cave.CaveSettings.BeamerResolutionHeight;
 
                 //Debug.Log("posCaveDuplicateX: " + posCaveDuplicateX);
                 //Debug.Log("posCaveDuplicateY: " + posCaveDuplicateY);
 
-                if (API.Instance.Cave.SystemSettings.SetMouseCursor)
+                if (API.Instance.Cave.CaveSettings.SetMouseCursor)
                 {
                     System.Windows.Forms.Cursor.Position = new Point(Convert.ToInt32(posCaveX), Convert.ToInt32(posCaveY));
                 }
@@ -337,7 +367,7 @@ namespace Cave
                     Cursor.visible = true;
                 }
 
-                if (API.Instance.Cave.SystemSettings.ForceShowMouseCursor)
+                if (API.Instance.Cave.CaveSettings.ForceShowMouseCursor)
                 {
                     Cursor.visible = true;
                 }

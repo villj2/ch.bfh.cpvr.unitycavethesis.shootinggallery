@@ -19,6 +19,8 @@ public class Duck : MonoBehaviour, IShootingTarget
     public delegate void DelegateHit(int points);
     public static event DelegateHit OnHit;
 
+    public static float GlobalDuckSpeed = 1f;
+
     private int _direction = 1;
     private float _speed;
     private Vector3 _initPos;
@@ -71,6 +73,7 @@ public class Duck : MonoBehaviour, IShootingTarget
     public void Move()
     {
         transform.Translate(Vector3.down * _direction * Time.deltaTime * _speed);
+        transform.Translate(Vector3.down * _direction * Time.deltaTime * GlobalDuckSpeed);
     }
 
     void OnTriggerEnter(Collider col)

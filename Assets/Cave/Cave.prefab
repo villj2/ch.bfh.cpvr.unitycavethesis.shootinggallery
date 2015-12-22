@@ -27,7 +27,7 @@ GameObject:
   - 64: {fileID: 6450962}
   - 23: {fileID: 2355682}
   m_Layer: 0
-  m_Name: front
+  m_Name: CaveFront
   m_TagString: CaveFront
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ GameObject:
   - 64: {fileID: 6408108}
   - 23: {fileID: 2343052}
   m_Layer: 0
-  m_Name: left
+  m_Name: CaveLeft
   m_TagString: CaveLeft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ GameObject:
   - 64: {fileID: 6413122}
   - 23: {fileID: 2340060}
   m_Layer: 0
-  m_Name: front
+  m_Name: CaveFrontXXL
   m_TagString: CaveFrontXXL
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &125974
 GameObject:
   m_ObjectHideFlags: 1
@@ -98,7 +98,7 @@ GameObject:
   - 64: {fileID: 6456316}
   - 23: {fileID: 2399806}
   m_Layer: 0
-  m_Name: left
+  m_Name: CaveLeftXXL
   m_TagString: CaveLeftXXL
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,7 +116,7 @@ GameObject:
   - 64: {fileID: 6438990}
   - 23: {fileID: 2330584}
   m_Layer: 0
-  m_Name: bottom
+  m_Name: CaveBottom
   m_TagString: CaveBottom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,7 @@ GameObject:
   - 222: {fileID: 22254368}
   - 114: {fileID: 11409608}
   m_Layer: 5
-  m_Name: Cursor
+  m_Name: CaveCursor
   m_TagString: CaveCursor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,7 +185,7 @@ GameObject:
   - 64: {fileID: 6425894}
   - 23: {fileID: 2303408}
   m_Layer: 0
-  m_Name: right
+  m_Name: CaveRight
   m_TagString: CaveRight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,7 +203,7 @@ GameObject:
   - 64: {fileID: 6401088}
   - 23: {fileID: 2306286}
   m_Layer: 0
-  m_Name: right
+  m_Name: CaveRightXXL
   m_TagString: CaveRightXXL
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,7 +239,7 @@ GameObject:
   - 114: {fileID: 11434776}
   - 114: {fileID: 11469844}
   m_Layer: 0
-  m_Name: Eyes
+  m_Name: WorldVizEyes
   m_TagString: Eyes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -259,7 +259,7 @@ GameObject:
   - 114: {fileID: 11497658}
   - 114: {fileID: 11458988}
   m_Layer: 0
-  m_Name: Wand
+  m_Name: WorldVizWand
   m_TagString: Wand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -277,7 +277,7 @@ GameObject:
   - 64: {fileID: 6406276}
   - 23: {fileID: 2308460}
   m_Layer: 0
-  m_Name: bottom
+  m_Name: CaveBottomXXL
   m_TagString: CaveBottomXXL
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1043,21 +1043,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de4af5b4c8fa8e4fa2a4504da8a49db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BeamerResolutionWidth: 1280
-  BeamerResolutionHeight: 1024
-  Host: 192.168.0.201
-  FrustumMode: 0
-  GUILocation: 1
-  EyeDistance: .0700000003
   WandSettings:
     TrackPosition: 1
-    MovementSensivity: 1
     PositionAxisConstraints:
       X: 0
       Y: 0
       Z: 0
-    PositionMovementConstraints:
-      useOneEuroSmoothing: 0
+    PositionSmoothing:
+      EnableOneEuroSmoothing: 1
       jitterReduction: 1
       lagReduction: 1
     TrackRotation: 1
@@ -1065,13 +1058,13 @@ MonoBehaviour:
       Yaw: 0
       Pitch: 0
       Roll: 0
-    RotationMovementConstraints:
-      useOneEuroSmoothing: 0
+    RotationSmoothing:
+      EnableOneEuroSmoothing: 1
       jitterReduction: 1
       lagReduction: 1
     allowJoystick: 1
     ButtonMapping:
-      Back: 13
+      Back: 500
       Joystick: 32
       TopLeft: 17
       TopRight: 16
@@ -1092,23 +1085,31 @@ MonoBehaviour:
       X: 0
       Y: 0
       Z: 0
-    PositionMovementConstraints:
-      useOneEuroSmoothing: 0
+    PositionSmoothing:
+      EnableOneEuroSmoothing: 1
       jitterReduction: 1
       lagReduction: 1
     TrackRotation: 1
     RotationAxisConstraints:
       Yaw: 0
       Roll: 0
-    RotationMovementConstraints:
-      useOneEuroSmoothing: 0
+    RotationSmoothing:
+      EnableOneEuroSmoothing: 1
       jitterReduction: 1
       lagReduction: 1
     WorldVizObject: PPT0
     Channel: 0
-  SecondaryCameraSettings:
-  - Camera: {fileID: 0}
-    Side: 2
+  SecondaryCameraSettings: []
+  CaveSettings:
+    ShowCave: 1
+    SetMouseCursor: 1
+    ForceShowMouseCursor: 0
+    BeamerResolutionWidth: 1280
+    BeamerResolutionHeight: 1024
+    Host: 192.168.0.201
+    FrustumMode: 0
+    GUILocation: 2
+    EyeDistance: .0700000003
   SystemSettings:
     CameraManagerPrefab: {fileID: 11439038, guid: 54c3efade4d157f4483aa38b4f7073ec,
       type: 2}
@@ -1116,9 +1117,6 @@ MonoBehaviour:
       type: 2}
     CameraContainerPrefab: {fileID: 132108, guid: d60238788ebea804eb97f2b4fe276066,
       type: 2}
-    ShowCave: 1
-    SetMouseCursor: 1
-    ForceShowMouseCursor: 0
 --- !u!114 &11497658
 MonoBehaviour:
   m_ObjectHideFlags: 1

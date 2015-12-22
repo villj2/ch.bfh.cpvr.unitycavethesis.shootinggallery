@@ -9,15 +9,14 @@ namespace Cave
     {
         [Header("Position")]
         public bool TrackPosition = true;
-        [Range(0.0f, 1.0f)]
-        public float MovementSensivity;
+        //public AxisSensivity MovementSensivity;
         public BlockPositionAxis PositionAxisConstraints;
-        public MovementSmoothing PositionMovementConstraints;
+        public MovementSmoothing PositionSmoothing;
 
         [Header("Rotation")]
         public bool TrackRotation = true;
         public BlockRotationAxisWand RotationAxisConstraints;
-        public MovementSmoothing RotationMovementConstraints;
+        public MovementSmoothing RotationSmoothing;
 
         [Header("Inputs")]
         public bool allowJoystick = true;
@@ -97,7 +96,8 @@ namespace Cave
         Down = WindowsInput.VirtualKeyCode.DOWN,
         Add = WindowsInput.VirtualKeyCode.ADD,
         Subtract = WindowsInput.VirtualKeyCode.SUBTRACT,
-        MouseLeft = 333
+        MouseLeft = 500,
+        MouseRight = 501
     }
 
     //[CustomPropertyDrawer(typeof(WandSettings))]
