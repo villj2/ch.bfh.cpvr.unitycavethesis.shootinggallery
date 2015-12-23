@@ -9,6 +9,7 @@ public class DuckSpeedSlider : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         _slider = GetComponent<Slider>();
+        Duck.GlobalDuckSpeed = _slider.value;
     }
 	
 	// Update is called once per frame
@@ -17,13 +18,18 @@ public class DuckSpeedSlider : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             _slider.value -= 0.1f;
-            Duck.GlobalDuckSpeed = _slider.value;
+            OnValueChanged();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             _slider.value += 0.1f;
-            Duck.GlobalDuckSpeed = _slider.value;
+            OnValueChanged();
         }
+    }
+
+    public void OnValueChanged()
+    {
+        Duck.GlobalDuckSpeed = _slider.value;
     }
 }

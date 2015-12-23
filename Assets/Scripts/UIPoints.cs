@@ -48,5 +48,6 @@ public class UIPoints : MonoBehaviour {
     public void Reset()
     {
         _points = 0;
+        _text.text = "Punkte: " + _points.ToString();
     }
 }

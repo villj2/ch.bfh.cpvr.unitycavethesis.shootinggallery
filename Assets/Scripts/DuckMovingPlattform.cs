@@ -34,7 +34,10 @@ public class DuckMovingPlattform : MonoBehaviour {
 
         foreach (var duck in _ducksOnPlattform)
         {
-            duck.GetComponent<Duck>().Move();
+            if(duck.tag == "Duck")
+            {
+                duck.GetComponent<Duck>().Move();
+            }
         }
 	}
 

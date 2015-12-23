@@ -41,7 +41,7 @@ public class Duck : MonoBehaviour, IShootingTarget
 	
 	// Update is called once per frame
 	void Update () {
-	
+        //gameObject.transform.LookAt(ColliderFront.transform);
 	}
 
     public void Hit()
@@ -72,8 +72,8 @@ public class Duck : MonoBehaviour, IShootingTarget
 
     public void Move()
     {
-        transform.Translate(Vector3.down * _direction * Time.deltaTime * _speed);
-        transform.Translate(Vector3.down * _direction * Time.deltaTime * GlobalDuckSpeed);
+        transform.Translate(Vector3.forward * (float)_direction * Time.deltaTime * _speed, Space.Self);
+        transform.Translate(Vector3.forward * (float)_direction * Time.deltaTime * GlobalDuckSpeed, Space.Self);
     }
 
     void OnTriggerEnter(Collider col)
@@ -82,14 +82,21 @@ public class Duck : MonoBehaviour, IShootingTarget
         {
             if(col.gameObject.name == "BlockerLeft")
             {
-                _speed = UnityEngine.Random.Range(0.1f, 1f);
+                _speed = UnityEngine.Random.Range(0.1f, 0.5f);
                 _direction *= -1;
-            
+
+                //transform.LookAt(col.gameObject.transform);
+                //transform.eulerAngles = transform.eulerAngles + 180f * Vector3.up;
             }
             else if(col.gameObject.name == "BlockerRight")
             {
-                _speed = UnityEngine.Random.Range(0.1f, 1f);
+                _speed = UnityEngine.Random.Range(0.1f, 0.5f);
                 _direction *= -1;
+
+                //transform.rotation = col.transform.rotation;
+
+                //transform.LookAt(col.gameObject.transform);
+                //transform.eulerAngles = transform.eulerAngles + 180f * Vector3.up;
             }
         }
     }
