@@ -37,6 +37,8 @@ namespace Cave
 
         private int _pressedKeycode;
 
+        private int _pressedKeycodeBefore;
+
         private RectTransform _caveCursorRect;
         private UnityEngine.UI.Image _caveCursorImage;
 
@@ -96,7 +98,8 @@ namespace Cave
         }
 
         // Update is called once per frame
-        void Update()
+        //void Update()
+        void FixedUpdate()
         {
             HandlePosition();
             HandleRotation();
@@ -250,7 +253,14 @@ namespace Cave
 
         private void PressButton(CaveInput caveInput)
         {
-            if (_pressedKeycode == (int)caveInput) return;
+            bool needWait = true;
+            if (_pressedKeycodeBefore == (int)caveInput) needWait = false;
+
+
+            if (_pressedKeycode == (int)caveInput) 
+            {
+               return;
+            }
 
             if (caveInput == CaveInput.MouseLeft)
             {
@@ -267,14 +277,20 @@ namespace Cave
 
             _pressedKeycode = (int)caveInput;
 
-            StopCoroutine(ClearPressedKey());
-            StartCoroutine(ClearPressedKey());
+            if (needWait) { 
+                StopCoroutine(ClearPressedKey());
+                StartCoroutine(ClearPressedKey());
+            }
+
+            _pressedKeycodeBefore = _pressedKeycode;
         }
 
         IEnumerator ClearPressedKey()
         {
-            yield return new WaitForSeconds(1f);
+
             
+            yield return new WaitForSeconds(1f);
+         
             _pressedKeycode = -1;
         }
 
@@ -295,7 +311,7 @@ namespace Cave
             // NOTE layers are not exported with assets
             //var mask = LayerMask.GetMask("CAVE");
 
-            var raycast = Physics.RaycastAll(ray, 10f);
+            var raycast = Physics.RaycastAll(ray, 5f);
 
             foreach (var h in raycast)
             {

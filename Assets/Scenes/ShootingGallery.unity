@@ -4593,6 +4593,92 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f81838fe371e0904795d845a52dcee69, type: 3}
   m_IsPrefabParent: 0
+--- !u!1001 &782284860
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: CaveSettings.ShowCave
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: CaveSettings.SetMouseCursor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: CaveSettings.ForceShowMouseCursor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: WandSettings.TrackPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: WandSettings.TrackRotation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: EyesSettings.TrackPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: EyesSettings.TrackRotation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: WandSettings.ButtonMapping.BottomLeft
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: WandSettings.ButtonMapping.BottomRight
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: WandSettings.ButtonMapping.TopLeft
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+      propertyPath: WandSettings.ButtonMapping.TopRight
+      value: 50
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &785340767
 Prefab:
   m_ObjectHideFlags: 0
@@ -11747,253 +11833,6 @@ Transform:
   - {fileID: 823952393}
   m_Father: {fileID: 0}
   m_RootOrder: 8
---- !u!1001 &2014670743
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: SecondaryCameraSettings.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 438420, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: EyesSettings.TrackPosition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: EyesSettings.TrackRotation
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.TrackPosition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.TrackRotation
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 412266, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: .414000005
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: CAVEMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: GUILocation
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: ShowCave
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.MovementSensivity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.RotationMovementConstraints.useOneEuroSmoothing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.RotationMovementConstraints.jitterReduction
-      value: .100000001
-      objectReference: {fileID: 0}
-    - target: {fileID: 11497658, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: MouseCursorDuplicate
-      value: 
-      objectReference: {fileID: 21300000, guid: 5a4cefbc65bd2784c8b120dfe8b3d2aa,
-        type: 3}
-    - target: {fileID: 22330636, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: EyesSettings.RotationMovementConstraints.useOneEuroSmoothing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: EyesSettings.RotationAxisConstraints.Roll
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: SecondaryCameraSettings.Array.data[0].Side
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: SystemSettings.ShowCave
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.Cursor
-      value: 
-      objectReference: {fileID: 2800000, guid: 73fba639fef3d374fa2bec96f635e747, type: 3}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_Pivot.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 22417330, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: SystemSettings.SetMouseCursor
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.PositionMovementConstraints.useOneEuroSmoothing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: EyesSettings.PositionMovementConstraints.useOneEuroSmoothing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11426004, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_Text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: BeamerResolutionHeight
-      value: 1024
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: SystemSettings.ForceShowMouseCursor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.ButtonMapping.Back
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: CaveSettings.ShowCave
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 182208, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: CaveSettings.SetMouseCursor
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: CaveSettings.ForceShowMouseCursor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.ButtonMapping.TopLeft
-      value: 49
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.ButtonMapping.TopRight
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.ButtonMapping.BottomLeft
-      value: 65
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.ButtonMapping.BottomRight
-      value: 66
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: CaveSettings.GUILocation
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.PositionSmoothing.EnableOneEuroSmoothing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: WandSettings.RotationSmoothing.EnableOneEuroSmoothing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: EyesSettings.RotationSmoothing.EnableOneEuroSmoothing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11477412, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-      propertyPath: EyesSettings.PositionSmoothing.EnableOneEuroSmoothing
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: e53c6602a5e003d438a946cd758b0c80, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &2015542258
 GameObject:
   m_ObjectHideFlags: 0
