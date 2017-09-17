@@ -45,9 +45,12 @@ public class Rifle : MonoBehaviour {
             // SmokeShoot
             var smokeShoot = Instantiate(SmokeShoot, SmokeShootPosition.transform.position, SmokeShootPosition.transform.rotation);
             Destroy((smokeShoot as Transform).gameObject, 3);
-            
+
             //Debug.Log("Shoot with cam: " + API.Instance.CameraManager.CameraWithCursor.name);
-            Ray raycast = API.Instance.CameraManager.CameraWithCursor.ScreenPointToRay(Input.mousePosition);
+            //Ray raycast = API.Instance.CameraManager.CameraWithCursor.ScreenPointToRay(Input.mousePosition);
+
+            var mainCamera = Camera.main;
+            Ray raycast = mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(raycast, out hit, 100))
 			{
@@ -57,7 +60,8 @@ public class Rifle : MonoBehaviour {
                     if(hit.rigidbody.gameObject.tag == "Duck" && !hit.rigidbody.gameObject.GetComponent<Duck>().AlreadyHit)
                     {
                         var hitPosition = hit.transform.position;
-                        var camPosition = API.Instance.CameraManager.CameraWithCursor.transform.position;
+                        //var camPosition = API.Instance.CameraManager.CameraWithCursor.transform.position;
+                        var camPosition = mainCamera.transform.position;
                         var vectToTarget = (hitPosition - camPosition);
 
                         hit.rigidbody.AddForce(vectToTarget.normalized * 1000);
