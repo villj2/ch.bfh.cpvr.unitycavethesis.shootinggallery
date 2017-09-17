@@ -18,11 +18,17 @@ public class Rifle : MonoBehaviour {
     private AudioSource _audioSource;
     private Animation _animation;
     private bool _recentlyShot = false;
+
+    public Texture2D cursorTexture;
+    public CursorMode cursorMode = CursorMode.Auto;
+    public Vector2 hotSpot = Vector2.zero;
     
     void Start () {
         _audioSource = GetComponent<AudioSource>();
         _animation = GetComponent<Animation>();
         _animation.Stop();
+
+        Cursor.SetCursor(cursorTexture, hotSpot, cursorMode);
     }
 	
 	void Update () {

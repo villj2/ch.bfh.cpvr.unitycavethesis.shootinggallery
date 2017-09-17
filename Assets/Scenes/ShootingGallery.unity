@@ -2265,6 +2265,9 @@ MonoBehaviour:
   SmokeShootPosition: {fileID: 1527790193}
   RotationMaxX: 30
   RotationMaxY: 30
+  cursorTexture: {fileID: 2800000, guid: 73fba639fef3d374fa2bec96f635e747, type: 3}
+  cursorMode: 0
+  hotSpot: {x: 50, y: 50}
 --- !u!82 &379910878
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6903,6 +6906,9 @@ MonoBehaviour:
   SmokeShootPosition: {fileID: 1262378862}
   RotationMaxX: 30
   RotationMaxY: 30
+  cursorTexture: {fileID: 0}
+  cursorMode: 0
+  hotSpot: {x: 0, y: 0}
 --- !u!111 &1063632437
 Animation:
   m_ObjectHideFlags: 0
